@@ -13,7 +13,10 @@ Pressbooks mPDF
 == Description ==
 
 [mPDF](http://www.mpdf1.com/mpdf/index.php) is an open source PHP class that generates PDF files from HTML.
-mPDF is also released under a GPLv2 license and made by people other than the authors of this plugin.
+mPDF is also released under a GPLv2 license and made by people other than the authors of this plugin. 
+
+The mPDF class is large and not a development focus for pressbooks.com. Where the mPDF class has previously been a part of the [pressbooks](https://wordpress.org/plugins/pressbooks), it has now been removed. 
+Installing this plugin will restore the previous functionality that open source users have come to expect if the license fee for [PrinceXML](http://www.princexml.com/) is a barrier.  
 
 [Pressbooks](https://wordpress.org/plugins/pressbooks/) is a requirement in order for this plugin to do anything useful.
 
@@ -42,26 +45,12 @@ The Pressbooks github repository is updated frequently. [Stay up to date](https:
 1. Upload `pressbooks-mpdf` to the `/wp-content/plugins/` directory
 2. Activate the plugin at the network level, through the 'Plugins' menu in WordPress
 
-== FAQ ==
-
-1. Didn't this used to be part of Pressbooks?
-
-2. Are there other options besides mPDF?
-
-3. Why is the PDF output different than mPDF?
-
-4. How come this plugin takes so long to download?
-
-
-== Screenshots ==
-
-
 == Changelog ==
 
-See: https://github.com/BCcampus/pressbooks-textbook/commits/master for more detail
+See: https://github.com/BCcampus/pressbooks-mpdf/commits/master for more detail
 
 
-= 1.0.0 (2014/03/13) =
+= 1.0.1 (2015/12/15) =
 * initial release
 
 == How to contribute code ==

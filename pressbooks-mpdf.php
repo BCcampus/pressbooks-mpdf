@@ -44,6 +44,9 @@ add_action( 'admin_notices', function () {
 	);
 
 	foreach ( $paths as $path ) {
+        // try making them writeable first
+        chmod( $path, 0775 );
+        // alert for server admin intervention
 		if ( ! is_writable( $path ) ) {
 			$_SESSION['pb_errors'][] = sprintf( __('The path "%s" is not writable. Please check and adjust the ownership and file permissions for mpdf export to work properly.', 'pressbooks'), $path );
 		}
