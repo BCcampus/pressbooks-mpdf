@@ -67,3 +67,12 @@ if ( ! @include_once( WP_PLUGIN_DIR . '/pressbooks/compatibility.php' ) ) {
 } else {
 	require_once PB_MPDF_DIR . 'vendor/autoload.php';
 }
+
+add_action( 'init', 'pb_mpdf_init' );
+function pb_mpdf_init() {
+	require_once PB_MPDF_DIR . 'includes/modules/export/mpdf/class-pb-mpdf.php';
+	require_once PB_MPDF_DIR . 'includes/modules/themeoptions/class-pb-mpdfoptions.php';
+}
+
+// Require hooks
+require_once PB_MPDF_DIR . 'hooks-admin.php';
