@@ -2,9 +2,7 @@
 
 // Filter export formats array
 function pb_mpdf_add_to_formats( $formats ) {
-		unset( $formats['standard']['pdf'] );
-		unset( $formats['standard']['print_pdf'] );
-		$formats['standard'] = array( 'mpdf' => __( 'PDF (mPDF)', 'pressbooks' ) ) + $formats['standard'];
+		array_splice( $formats['standard'], 2, 0, array( 'mpdf' => __( 'PDF (mPDF)', 'pressbooks' ) ) );
 		return $formats;
 }
 add_filter( 'pb_export_formats', 'pb_mpdf_add_to_formats' );
