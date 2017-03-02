@@ -55,15 +55,23 @@ add_action( 'admin_notices', function () {
 	}
 } );
 
-// Must meet miniumum requirements
-
-if ( ! @include_once( WP_PLUGIN_DIR . '/pressbooks/compatibility.php' ) ) {
-	add_action( 'admin_notices', function () {
-		echo '<div id="message" class="error fade"><p>' . __( 'PB mPDF cannot find a Pressbooks install.', 'pressbooks-mpdf' ) . '</p></div>';
-	} );
-
-	return;
-
-} else {
-	require_once PB_MPDF_DIR . 'vendor/autoload.php';
+add_action( 'init', 'pb_mpdf_init' );
+function pb_mpdf_init() {
+	// Must meet miniumum requirements
+	if ( ! @include_once( WP_PLUGIN_DIR . '/pressbooks/compatibility.php' ) ) {
+		add_action( 'admin_notices', function () {
+			echo '<div id="message" class="error fade"><p>' . __( 'PB mPDF cannot find a Pressbooks install.', 'pressbooks-mpdf' ) . '</p></div>';
+		} );
+		return;
+	} elseif( ! version_compare( PB_PLUGIN_VERSION, '3.9.8', '>=' ) ) {
+		add_action( 'admin_notices', function () {
+			echo '<div id="message" class="error fade"><p>' . __( 'PB mPDF requires Pressbooks 3.9.8 or greater.', 'pressbooks-mpdf' ) . '</p></div>';
+		} );
+		return;
+	} else {
+		require_once PB_MPDF_DIR . 'vendor/autoload.php';
+		require_once PB_MPDF_DIR . 'includes/modules/export/mpdf/class-pb-mpdf.php';
+		require_once PB_MPDF_DIR . 'includes/modules/themeoptions/class-pb-mpdfoptions.php';
+		require_once PB_MPDF_DIR . 'hooks-admin.php';
+	}
 }

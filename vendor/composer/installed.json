@@ -19,7 +19,7 @@
             "setasign/fpdi-fpdf": "Use this package to automatically evaluate dependencies to FPDF.",
             "setasign/fpdi-tcpdf": "Use this package to automatically evaluate dependencies to TCPDF."
         },
-        "time": "2015-11-30 10:53:14",
+        "time": "2015-11-30T10:53:14+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -76,7 +76,7 @@
         "suggest": {
             "ext-zlib": "Needed for compression of embedded resources, such as fonts"
         },
-        "time": "2016-12-12 10:42:18",
+        "time": "2016-12-12T10:42:18+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
