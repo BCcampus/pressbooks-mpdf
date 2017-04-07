@@ -47,7 +47,7 @@ add_filter( 'pb_theme_options_tabs', 'pb_mpdf_add_theme_options_tab' );
  * @param string $scss
  * @return string $scss
  */
-function pressbooks_theme_mpdf_css_override( $scss ) {
+function pb_mpdf_theme_css_override( $scss ) {
 	$options = get_option( 'pressbooks_theme_options_mpdf' );
 	$global_options = get_option( 'pressbooks_theme_options_global' );
 
@@ -69,4 +69,4 @@ function pressbooks_theme_mpdf_css_override( $scss ) {
 	}
 	return $scss;
 }
-add_filter( 'pb_mpdf_css_override', 'pressbooks_theme_mpdf_css_override' );
+add_filter( 'pb_mpdf_css_override', 'pb_mpdf_theme_css_override' );
