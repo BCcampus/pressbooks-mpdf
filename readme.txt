@@ -2,9 +2,9 @@
 Contributors: bdolor
 Donation link: https://github.com/BCcampus/pressbooks-mpdf
 Tags: pressbooks, textbook, mPDF
-Requires at least: 4.7.2
-Tested up to: 4.7.2
-Stable tag: 1.6.1
+Requires at least: 4.7.3
+Tested up to: 4.7.3
+Stable tag: 1.6.2
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,10 +13,10 @@ Pressbooks mPDF
 == Description ==
 
 [mPDF](http://www.mpdf1.com/mpdf/index.php) is an open source PHP class that generates PDF files from HTML.
-mPDF is also released under a GPLv2 license and made by people other than the authors of this plugin. 
+mPDF is also released under a GPLv2 license and made by people other than the authors of this plugin.
 
-The mPDF class is large and not a development focus for pressbooks.com. Where the mPDF class has previously been a part of the [pressbooks](https://wordpress.org/plugins/pressbooks), it has now been removed. 
-Installing this plugin will restore the previous functionality that open source users have come to expect if the license fee for [PrinceXML](http://www.princexml.com/) is a barrier.  
+The mPDF class is large and not a development focus for pressbooks.com. Where the mPDF class has previously been a part of the [pressbooks](https://wordpress.org/plugins/pressbooks), it has now been removed.
+Installing this plugin will restore the previous functionality that open source users have come to expect if the license fee for [PrinceXML](http://www.princexml.com/) is a barrier.
 
 [Pressbooks](https://wordpress.org/plugins/pressbooks/) is a requirement in order for this plugin to do anything useful.
 
@@ -48,6 +48,9 @@ The Pressbooks github repository is updated frequently. [Stay up to date](https:
 == Changelog ==
 
 See: https://github.com/BCcampus/pressbooks-mpdf/commits/master for more detail
+
+= 1.6.2 (2017/04/07) =
+* compatibility with Pressbooks 3.9.8
 
 = 1.6.1 (2017/02/08) =
 * updated mPDF dependency to 6.1
