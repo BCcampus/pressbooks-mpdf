@@ -35,10 +35,6 @@ namespace Pressbooks\Modules\Export\Mpdf;
 
 use \Pressbooks\Modules\Export\Export;
 
-if ( file_exists( PB_PLUGIN_DIR . 'symbionts/htmLawed/htmLawed.php' ) ) {
-	require_once( PB_PLUGIN_DIR . 'symbionts/htmLawed/htmLawed.php' );
-}
-
 class Pdf extends Export {
 
 	/**
@@ -534,10 +530,6 @@ class Pdf extends Export {
 		    'hook' => '\Pressbooks\Sanitize\html5_to_xhtml11',
 		    'tidy' => -1,
 		);
-
-		if ( function_exists( 'htmLawed' ) ) {
-			return htmLawed( $filtered, $config );
-		}
 
 		return \Htmlawed::filter( $filtered, $config );
 	}
