@@ -4,7 +4,7 @@ Donation link: https://github.com/BCcampus/pressbooks-mpdf
 Tags: pressbooks, textbook, mPDF
 Requires at least: 4.7.3
 Tested up to: 4.7.3
-Stable tag: 1.6.2.1
+Stable tag: 1.6.2.2
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,6 +48,9 @@ The Pressbooks github repository is updated frequently. [Stay up to date](https:
 == Changelog ==
 
 See: https://github.com/BCcampus/pressbooks-mpdf/commits/master for more detail
+
+= 1.6.2.2 (2017/04/18) =
+* fix for redeclare htmlawed error
 
 = 1.6.2.1 (2017/04/10) =
 * compatibility with modifications to htmlawed dependency
