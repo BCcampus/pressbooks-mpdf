@@ -6,7 +6,7 @@
  *
  * Plugin Name: Pressbooks mPDF
  * Description:  Open source PDF generation for Pressbooks via the mPDF library.
- * Version: 1.6.2.2
+ * Version: 1.6.2.3
  * Author: Brad Payne
  * Original Author: BookOven Inc.
  * License: GPLv2
@@ -63,9 +63,9 @@ function pb_mpdf_init() {
 			echo '<div id="message" class="error fade"><p>' . __( 'PB mPDF cannot find a Pressbooks install.', 'pressbooks-mpdf' ) . '</p></div>';
 		} );
 		return;
-	} elseif( ! version_compare( PB_PLUGIN_VERSION, '3.9.8', '>=' ) ) {
+	} elseif( ! version_compare( PB_PLUGIN_VERSION, '3.9.8.2', '>=' ) ) {
 		add_action( 'admin_notices', function () {
-			echo '<div id="message" class="error fade"><p>' . __( 'PB mPDF requires Pressbooks 3.9.8 or greater.', 'pressbooks-mpdf' ) . '</p></div>';
+			echo '<div id="message" class="error fade"><p>' . __( 'PB mPDF requires Pressbooks 3.9.8.2 or greater.', 'pressbooks-mpdf' ) . '</p></div>';
 		} );
 		return;
 	} else {
