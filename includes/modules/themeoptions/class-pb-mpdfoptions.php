@@ -16,7 +16,7 @@ class MPDFOptions extends \Pressbooks\Options {
 	 * @see upgrade()
 	 * @var int
 	 */
-	static $currentVersion = 0;
+	const VERSION = 0;
 
 	/**
 	* PDF theme options.
