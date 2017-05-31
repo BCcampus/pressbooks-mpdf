@@ -2,9 +2,9 @@
 Contributors: bdolor
 Donation link: https://github.com/BCcampus/pressbooks-mpdf
 Tags: pressbooks, textbook, mPDF
-Requires at least: 4.7.3
-Tested up to: 4.7.3
-Stable tag: 1.6.2.3
+Requires at least: 4.7.5
+Tested up to: 4.7.5
+Stable tag: 1.7.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,6 +48,9 @@ The Pressbooks github repository is updated frequently. [Stay up to date](https:
 == Changelog ==
 
 See: https://github.com/BCcampus/pressbooks-mpdf/commits/master for more detail
+
+= 1.7.0 (2017/05/31) =
+* compatibility with Pressbooks 3.9.9
 
 = 1.6.2.3 (2017/04/20) =
 * compatibility with Pressbooks 3.9.8.2
