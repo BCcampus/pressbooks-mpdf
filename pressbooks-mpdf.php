@@ -12,6 +12,7 @@
  * License: GPLv2
  * Text Domain: pressbooks-mpdf
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
+ * Network: True
  */
 /**
  *
@@ -57,7 +58,7 @@ add_action( 'admin_notices', function () {
 
 add_action( 'init', 'pb_mpdf_init' );
 function pb_mpdf_init() {
-	// Must meet miniumum requirements
+	// Must meet minimum requirements
 	if ( ! @include_once( WP_PLUGIN_DIR . '/pressbooks/compatibility.php' ) ) {
 		add_action( 'admin_notices', function () {
 			echo '<div id="message" class="error fade"><p>' . __( 'PB mPDF cannot find a Pressbooks install.', 'pressbooks-mpdf' ) . '</p></div>';
