@@ -6,12 +6,13 @@
  *
  * Plugin Name: Pressbooks mPDF
  * Description:  Open source PDF generation for Pressbooks via the mPDF library.
- * Version: 1.7.0
+ * Version: 2.0.0
  * Author: Brad Payne
  * Original Author: BookOven Inc.
  * License: GPLv2
  * Text Domain: pressbooks-mpdf
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
+ * Network: True
  */
 /**
  *
@@ -25,53 +26,41 @@ if ( ! defined( 'ABSPATH' ) ) {
 	return;
 }
 
-
 // -------------------------------------------------------------------------------------------------------------------
 // Setup some defaults
 // -------------------------------------------------------------------------------------------------------------------
 
 if ( ! defined( 'PB_MPDF_DIR' ) ) {
-	define( 'PB_MPDF_DIR', __DIR__ . '/' );
-} // Must have trailing slash!
+	define( 'PB_MPDF_DIR', __DIR__ . '/' ); // Must have trailing slash!
+}
 
-// -------------------------------------------------------------------------------------------------------------------
-// Check mpdf export paths
-// -------------------------------------------------------------------------------------------------------------------
-
-add_action( 'admin_notices', function () {
-	$paths = array(
-		PB_MPDF_DIR . 'vendor/mpdf/mpdf/ttfontdata',
-		PB_MPDF_DIR . 'vendor/mpdf/mpdf/tmp',
-		PB_MPDF_DIR . 'vendor/mpdf/mpdf/graph_cache',
-	);
-
-	foreach ( $paths as $path ) {
-		// try making them writeable first
-		chmod( $path, 0775 );
-		// alert for server admin intervention
-		if ( ! is_writable( $path ) ) {
-			$_SESSION['pb_errors'][] = sprintf( __( 'The path "%s" is not writable. Please check and adjust the ownership and file permissions for mpdf export to work properly.', 'pressbooks-mpdf' ), $path );
-		}
-	}
-} );
-
-add_action( 'init', 'pb_mpdf_init' );
-function pb_mpdf_init() {
-	// Must meet miniumum requirements
-	if ( ! @include_once( WP_PLUGIN_DIR . '/pressbooks/compatibility.php' ) ) {
+add_action( 'init', function() {
+	// Must meet minimum requirements
+	if ( ! @include_once( WP_PLUGIN_DIR . '/pressbooks/compatibility.php' ) ) { // @codingStandardsIgnoreLine
 		add_action( 'admin_notices', function () {
 			echo '<div id="message" class="error fade"><p>' . __( 'PB mPDF cannot find a Pressbooks install.', 'pressbooks-mpdf' ) . '</p></div>';
 		} );
 		return;
-	} elseif( ! version_compare( PB_PLUGIN_VERSION, '3.9.9', '>=' ) ) {
+	} elseif ( ! version_compare( PB_PLUGIN_VERSION, '4.0', '>=' ) ) {
 		add_action( 'admin_notices', function () {
-			echo '<div id="message" class="error fade"><p>' . __( 'PB mPDF requires Pressbooks 3.9.9 or greater.', 'pressbooks-mpdf' ) . '</p></div>';
+			echo '<div id="message" class="error fade"><p>' . __( 'PB mPDF requires Pressbooks 4.0.0 or greater.', 'pressbooks-mpdf' ) . '</p></div>';
 		} );
 		return;
 	} else {
-		require_once PB_MPDF_DIR . 'vendor/autoload.php';
-		require_once PB_MPDF_DIR . 'includes/modules/export/mpdf/class-pb-mpdf.php';
-		require_once PB_MPDF_DIR . 'includes/modules/themeoptions/class-pb-mpdfoptions.php';
-		require_once PB_MPDF_DIR . 'hooks-admin.php';
+		$wp_upload_dir = wp_upload_dir();
+		$tmp_path = $wp_upload_dir['basedir'] . '/mpdf/tmp/';
+		$ttffontdata_path = $wp_upload_dir['basedir'] . '/mpdf/ttfontdata/';
+		if ( ! file_exists( $tmp_path ) ) {
+			mkdir( $tmp_path, 0775, true );
+		}
+		if ( ! file_exists( $ttffontdata_path ) ) {
+			mkdir( $ttffontdata_path, 0775, true );
+		}
+		define( '_MPDF_TEMP_PATH', $tmp_path );
+		define( '_MPDF_TTFONTDATAPATH', $ttffontdata_path );
+
+		\HM\Autoloader\register_class_path( 'Pressbooks', __DIR__ . '/inc' );
+		require_once __DIR__ . '/vendor/autoload.php';
+		require_once __DIR__ . '/hooks-admin.php';
 	}
-}
+} );

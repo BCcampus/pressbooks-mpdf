@@ -60,24 +60,24 @@ class MPDFOptions extends \Pressbooks\Options {
 		$_page = $_option = 'pressbooks_theme_options_' . $this->getSlug();
 		$_section = $this->getSlug() . '_options_section';
 
-		if ( false == get_option( $_option ) ) {
+		if ( false === get_option( $_option ) ) {
 			add_option( $_option, $this->defaults );
 		}
 
 		add_settings_section(
 			$_section,
 			$this->getTitle(),
-			array( $this, 'display' ),
+			[ $this, 'display' ],
 			$_page
 		);
 
 		add_settings_field(
 			'mpdf_page_size',
 			__( 'Page Size', 'pressbooks' ),
-			array( $this, 'renderPageSizeField' ),
+			[ $this, 'renderPageSizeField' ],
 			$_page,
 			$_section,
-			array(
+			[
 				'A0' => __( 'A0', 'pressbooks' ),
 				'A1' => __( 'A1', 'pressbooks' ),
 				'A2' => __( 'A2', 'pressbooks' ),
@@ -131,108 +131,108 @@ class MPDFOptions extends \Pressbooks\Options {
 				'Royal' => __( 'Royal' , 'pressbooks' ),
 				'A' => __( 'Type A paperback 111x178mm' , 'pressbooks' ),
 				'B' => __( 'Type B paperback 128x198mm' , 'pressbooks' ),
-			)
+			]
 		);
 
 		add_settings_field(
 			'mpdf_margin_left',
 			__( 'Left margin', 'pressbooks' ),
-			array( $this, 'renderLeftMarginField' ),
+			[ $this, 'renderLeftMarginField' ],
 			$_page,
 			$_section,
-			array(
+			[
 				__( 'Left Margin (in millimetres)', 'pressbooks' )
-			)
+			]
 		);
 
 		add_settings_field(
 			'mpdf_margin_right',
 			__( 'Right margin', 'pressbooks' ),
-			array( $this, 'renderRightMarginField' ),
+			[ $this, 'renderRightMarginField' ],
 			$_page,
 			$_section,
-			array(
+			[
 				__( ' Right margin (in milimeters)', 'pressbooks' )
-			)
+			]
 		);
 
 		add_settings_field(
 			'mpdf_mirror_margins',
 			__( 'Mirror Margins', 'pressbooks' ),
-			array( $this, 'renderMirrorMarginsField' ),
+			[ $this, 'renderMirrorMarginsField' ],
 			$_page,
 			$_section,
-			array(
+			[
 				 __( 'The document will mirror the left and right margin values on odd and even pages (i.e. they become inner and outer margins)', 'pressbooks' )
-			)
+			]
 		);
 
 		add_settings_field(
 			'mpdf_include_cover',
 			__( 'Cover Image', 'pressbooks' ),
-			array( $this, 'renderCoverImageField' ),
+			[ $this, 'renderCoverImageField' ],
 			$_page,
 			$_section,
-			array(
+			[
 				 __( 'Display cover image', 'pressbooks' )
-			)
+			]
 		);
 
 		add_settings_field(
 			'mpdf_include_toc',
 			__( 'Table of Contents', 'pressbooks' ),
-			array( $this, 'renderTOCField' ),
+			[ $this, 'renderTOCField' ],
 			$_page,
 			$_section,
-			array(
+			[
 				 __( 'Display table of contents', 'pressbooks' )
-			)
+			]
 		);
 
 		add_settings_field(
 			'mpdf_indent_paragraphs',
 			__( 'Indent paragraphs', 'pressbooks' ),
-			array( $this, 'renderIndentParagraphsField' ),
+			[ $this, 'renderIndentParagraphsField' ],
 			$_page,
 			$_section,
-			array(
+			[
 				 __( 'Indent paragraphs', 'pressbooks' )
-			)
+			]
 		);
 
 		add_settings_field(
 			'mpdf_hyphens',
 			__( 'Hyphens', 'pressbooks' ),
-			array( $this, 'renderHyphensField' ),
+			[ $this, 'renderHyphensField' ],
 			$_page,
 			$_section,
-			array(
+			[
 				 __( 'Enable hyphenation', 'pressbooks' )
-			)
+			]
 		);
 
 		add_settings_field(
 			'mpdf_fontsize',
 			__( 'Increase Font Size', 'pressbooks' ),
-			array( $this, 'renderFontSizeField' ),
+			[ $this, 'renderFontSizeField' ],
 			$_page,
 			$_section,
-			array(
-			    __( 'Increases font size and line height for greater accessibility', 'pressbooks' )
-			)
+			[
+				__( 'Increases font size and line height for greater accessibility', 'pressbooks' )
+			]
 		);
 
 		/**
 		 * Add custom settings fields.
 		 *
-		 * @since 3.9.7
+		 * @since 1.6.2
 		 */
 		do_action( 'pb_theme_options_mpdf_add_settings_fields', $_page, $_section );
 
 		register_setting(
 			$_option,
 			$_option,
-			array( $this, 'sanitize' )
+			[ $this, 'sanitize' ]
 		);
 	}
 
@@ -260,7 +260,13 @@ class MPDFOptions extends \Pressbooks\Options {
 	 * @param array $args
 	 */
 	function renderPageSizeField( $args ) {
-		$this->renderSelect( 'mpdf_page_size',  'pressbooks_theme_options_' . $this->getSlug(), 'mpdf_page_size', $this->options['mpdf_page_size'], $args, false );
+		$this->renderSelect( [
+			'id' => 'mpdf_page_size',
+			'name' => 'pressbooks_theme_options_' . $this->getSlug(),
+			'option' => 'mpdf_page_size',
+			'value' => $this->options['mpdf_page_size'],
+			'choices' => $args,
+		] );
 	}
 
 	/**
@@ -268,7 +274,13 @@ class MPDFOptions extends \Pressbooks\Options {
 	 * @param array $args
 	 */
 	function renderLeftMarginField( $args ) {
-		$this->renderField( 'mpdf_margin_left', 'pressbooks_theme_options_' . $this->getSlug(), 'mpdf_margin_left', $this->options['mpdf_margin_left'], $args[0] );
+		$this->renderField( [
+			'id' => 'mpdf_margin_left',
+			'name' => 'pressbooks_theme_options_' . $this->getSlug(),
+			'option' => 'mpdf_margin_left',
+			'value' => $this->options['mpdf_margin_left'],
+			'description' => $args[0],
+		] );
 	}
 
 	/**
@@ -276,7 +288,13 @@ class MPDFOptions extends \Pressbooks\Options {
 	 * @param array $args
 	 */
 	function renderRightMarginField( $args ) {
-		$this->renderField( 'mpdf_margin_right', 'pressbooks_theme_options_' . $this->getSlug(), 'mpdf_margin_right', $this->options['mpdf_margin_right'], $args[0] );
+		$this->renderField( [
+			'id' => 'mpdf_margin_right',
+			'name' => 'pressbooks_theme_options_' . $this->getSlug(),
+			'option' => 'mpdf_margin_right',
+			'value' => $this->options['mpdf_margin_right'],
+			'description' => $args[0],
+		] );
 	}
 
 	/**
@@ -284,7 +302,13 @@ class MPDFOptions extends \Pressbooks\Options {
 	 * @param array $args
 	 */
 	function renderMirrorMarginsField( $args ) {
-		$this->renderCheckbox( 'mpdf_mirror_margins', 'pressbooks_theme_options_' . $this->getSlug(), 'mpdf_mirror_margins', $this->options['mpdf_mirror_margins'], $args[0] );
+		$this->renderCheckbox( [
+				'id' => 'mpdf_mirror_margins',
+				'name' => 'pressbooks_theme_options_' . $this->getSlug(),
+				'option' => 'mpdf_mirror_margins',
+				'value' => $this->options['mpdf_mirror_margins'],
+				'label' => $args[0],
+		] );
 	}
 
 	/**
@@ -292,7 +316,13 @@ class MPDFOptions extends \Pressbooks\Options {
 	 * @param array $args
 	 */
 	function renderCoverImageField( $args ) {
-		$this->renderCheckbox( 'mpdf_include_cover', 'pressbooks_theme_options_' . $this->getSlug(), 'mpdf_include_cover', $this->options['mpdf_include_cover'], $args[0] );
+		$this->renderCheckbox( [
+			'id' => 'mpdf_include_cover',
+			'name' => 'pressbooks_theme_options_' . $this->getSlug(),
+			'option' => 'mpdf_include_cover',
+			'value' => $this->options['mpdf_include_cover'],
+			'label' => $args[0],
+		] );
 	}
 
 	/**
@@ -300,7 +330,13 @@ class MPDFOptions extends \Pressbooks\Options {
 	 * @param array $args
 	 */
 	function renderTOCField( $args ) {
-		$this->renderCheckbox( 'mpdf_include_toc', 'pressbooks_theme_options_' . $this->getSlug(), 'mpdf_include_toc', $this->options['mpdf_include_toc'], $args[0] );
+		$this->renderCheckbox( [
+			'id' => 'mpdf_include_toc',
+			'name' => 'pressbooks_theme_options_' . $this->getSlug(),
+			'option' => 'mpdf_include_toc',
+			'value' => $this->options['mpdf_include_toc'],
+			'label' => $args[0],
+		] );
 	}
 
 	/**
@@ -308,7 +344,13 @@ class MPDFOptions extends \Pressbooks\Options {
 	 * @param array $args
 	 */
 	function renderIndentParagraphsField( $args ) {
-		$this->renderCheckbox( 'mpdf_indent_paragraphs', 'pressbooks_theme_options_' . $this->getSlug(), 'mpdf_indent_paragraphs', $this->options['mpdf_indent_paragraphs'], $args[0] );
+		$this->renderCheckbox( [
+			'id' => 'mpdf_indent_paragraphs',
+			'name' => 'pressbooks_theme_options_' . $this->getSlug(),
+			'option' => 'mpdf_indent_paragraphs',
+			'value' => $this->options['mpdf_indent_paragraphs'],
+			'label' => $args[0],
+		] );
 	}
 
 	/**
@@ -316,7 +358,13 @@ class MPDFOptions extends \Pressbooks\Options {
 	 * @param array $args
 	 */
 	function renderHyphensField( $args ) {
-		$this->renderCheckbox( 'mpdf_hyphens', 'pressbooks_theme_options_' . $this->getSlug(), 'mpdf_hyphens', $this->options['mpdf_hyphens'], $args[0] );
+		$this->renderCheckbox( [
+			'id' => 'mpdf_hyphens',
+			'name' => 'pressbooks_theme_options_' . $this->getSlug(),
+			'option' => 'mpdf_hyphens',
+			'value' => $this->options['mpdf_hyphens'],
+			'label' => $args[0],
+		] );
 	}
 
 	/**
@@ -324,7 +372,13 @@ class MPDFOptions extends \Pressbooks\Options {
 	 * @param array $args
 	 */
 	function renderFontSizeField( $args ) {
-		$this->renderCheckbox( 'mpdf_fontsize', 'pressbooks_theme_options_' . $this->getSlug(), 'mpdf_fontsize', $this->options['mpdf_fontsize'], $args[0] );
+		$this->renderCheckbox( [
+			'id' => 'mpdf_fontsize',
+			'name' => 'pressbooks_theme_options_' . $this->getSlug(),
+			'option' => 'mpdf_fontsize',
+			'value' => $this->options['mpdf_fontsize'],
+			'label' => $args[0],
+		] );
 	}
 
 	/**
@@ -352,9 +406,9 @@ class MPDFOptions extends \Pressbooks\Options {
 	 */
 	static function getDefaults() {
 		/**
-		 * @since 3.9.7 TODO
+		 * @since 1.6.2 TODO
 		 */
-		return apply_filters( 'pb_theme_options_mpdf_defaults', array(
+		return apply_filters( 'pb_theme_options_mpdf_defaults', [
 			'mpdf_page_size' => 'Letter',
 			'mpdf_include_cover' => 1,
 			'mpdf_indent_paragraphs' => 0,
@@ -364,7 +418,7 @@ class MPDFOptions extends \Pressbooks\Options {
 			'mpdf_margin_right' => 30,
 			'mpdf_hyphens' => 0,
 			'mpdf_fontsize' => 0,
-		) );
+		] );
 	}
 
 	/**
@@ -386,16 +440,16 @@ class MPDFOptions extends \Pressbooks\Options {
 		/**
 		 * Allow custom boolean options to be passed to sanitization routines.
 		 *
-		 * @since 3.9.7
+		 * @since 1.6.2
 		 */
-		return apply_filters( 'pb_theme_options_mpdf_booleans', array(
+		return apply_filters( 'pb_theme_options_mpdf_booleans', [
 			'mpdf_mirror_margins',
 			'mpdf_include_cover',
 			'mpdf_include_toc',
 			'mpdf_indent_paragraphs',
 			'mpdf_hyphens',
 			'mpdf_fontsize',
-		) );
+		] );
 	}
 
 	/**
@@ -407,9 +461,9 @@ class MPDFOptions extends \Pressbooks\Options {
 		/**
 		 * Allow custom string options to be passed to sanitization routines.
 		 *
-		 * @since 3.9.7
+		 * @since 1.6.2
 		 */
-		return apply_filters( 'pb_theme_options_mpdf_strings', array() );
+		return apply_filters( 'pb_theme_options_mpdf_strings', [] );
 	}
 
 	/**
@@ -421,12 +475,12 @@ class MPDFOptions extends \Pressbooks\Options {
 		/**
 		 * Allow custom integer options to be passed to sanitization routines.
 		 *
-		 * @since 3.9.7
+		 * @since 1.6.2
 		 */
-		return apply_filters( 'pb_theme_options_mpdf_integers', array(
+		return apply_filters( 'pb_theme_options_mpdf_integers', [
 			'mpdf_left_margin',
 			'mpdf_right_margin',
-		) );
+		] );
 	}
 
 	/**
@@ -438,9 +492,9 @@ class MPDFOptions extends \Pressbooks\Options {
 		/**
 		 * Allow custom float options to be passed to sanitization routines.
 		 *
-		 * @since 3.9.7
+		 * @since 1.6.2
 		 */
-		return apply_filters( 'pb_theme_options_mpdf_floats', array() );
+		return apply_filters( 'pb_theme_options_mpdf_floats', [] );
 	}
 
 	/**
@@ -452,10 +506,56 @@ class MPDFOptions extends \Pressbooks\Options {
 		/**
 		 * Allow custom predifined options to be passed to sanitization routines.
 		 *
-		 * @since 3.9.7
+		 * @since 1.6.2
 		 */
-		return apply_filters( 'pb_theme_options_mpdf_predefined', array(
+		return apply_filters( 'pb_theme_options_mpdf_predefined', [
 			'mpdf_page_size'
-		) );
+		] );
+	}
+
+	/**
+	 * Add format-specific theme options to the theme options page.
+	 *
+	 * @since 2.0.0
+	 * @author Book Oven Inc. <code@pressbooks.com>
+	 *
+	 * @param array $tabs an array of theme options tabs ('slug' => '\Classname')
+	 * @return array $tabs
+	 */
+	static function addTab( $tabs ) {
+		$tabs['mpdf'] = '\Pressbooks\Modules\ThemeOptions\MPDFOptions';
+		return $tabs;
+	}
+
+	/**
+	 * Apply overrides.
+	 *
+	 * @since 2.0.0
+	 * @author Book Oven Inc. <code@pressbooks.com>
+	 *
+	 * @param string $scss
+	 * @return string
+	 */
+	static function scssOverrides( $scss ) {
+		$options = get_option( 'pressbooks_theme_options_mpdf' );
+		$global_options = get_option( 'pressbooks_theme_options_global' );
+
+		// indent paragraphs
+		if ( $options['mpdf_indent_paragraphs'] ) {
+			$scss .= 'p + p, .indent {text-indent: 2.0 em; }' . "\n";
+		}
+		// hyphenation
+		if ( $options['mpdf_hyphens'] ) {
+			$scss .= 'p {hyphens: auto;}' . "\n";
+		}
+		// font-size
+		if ( $options['mpdf_fontsize'] ) {
+					$scss .= 'body {font-size: 1.3em; line-height: 1.3; }' . "\n";
+		}
+		// chapter numbers
+		if ( ! $global_options['chapter_numbers'] ) {
+			$scss .= 'h3.chapter-number {display: none;}' . "\n";
+		}
+		return $scss;
 	}
 }
