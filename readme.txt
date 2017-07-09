@@ -52,6 +52,7 @@ See: https://github.com/BCcampus/pressbooks-mpdf/commits/master for more detail
 = 2.0.0 =
 * Compatibility with Pressbooks 4.0.0
 * Moved temp directories into uploads directory, eliminating the need for making subdirectories of the plugin writeable (fixes #19)
+* Fixed an issue with mPDF theme options introduced by an earlier release of Pressbooks
 
 = 1.7.0 (2017/05/31) =
 * compatibility with Pressbooks 3.9.9
