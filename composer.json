@@ -1,5 +1,18 @@
 {
-    "require": {
-        "mpdf/mpdf": "^6.1"
-    }
+  "license": "GPL-2.0+",
+  "type" : "wordpress-plugin",
+  "require": {
+    "mpdf/mpdf": "^6.1"
+  },
+  "require-dev": {
+    "humanmade/coding-standards": "^0.2.1"
+  },
+  "scripts": {
+    "test": [
+      "@standards"
+    ],
+    "standards": [
+      "vendor/bin/phpcs --standard=phpcs.ruleset.xml *.php inc/"
+    ]
+  }
 }

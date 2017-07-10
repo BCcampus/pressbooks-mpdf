@@ -1,10 +1,10 @@
 === Pressbooks mPDF ===
-Contributors: bdolor
+Contributors: bdolor, greatislander
 Donation link: https://github.com/BCcampus/pressbooks-mpdf
 Tags: pressbooks, textbook, mPDF
-Requires at least: 4.7.5
-Tested up to: 4.7.5
-Stable tag: 1.7.0
+Requires at least: 4.8.0
+Tested up to: 4.8.0
+Stable tag: 2.0.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,6 +48,11 @@ The Pressbooks github repository is updated frequently. [Stay up to date](https:
 == Changelog ==
 
 See: https://github.com/BCcampus/pressbooks-mpdf/commits/master for more detail
+
+= 2.0.0 =
+* Compatibility with Pressbooks 4.0.0
+* Moved temp directories into uploads directory, eliminating the need for making subdirectories of the plugin writeable (fixes #19)
+* Fixed an issue with mPDF theme options introduced by an earlier release of Pressbooks
 
 = 1.7.0 (2017/05/31) =
 * compatibility with Pressbooks 3.9.9

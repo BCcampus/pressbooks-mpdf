@@ -1,0 +1,5 @@
+vendor/*
+!vendor/autoload.php
+!vendor/composer/*
+!vendor/mpdf/*
+!vendor/setasign/*
