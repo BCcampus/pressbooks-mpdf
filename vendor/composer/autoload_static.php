@@ -23,6 +23,10 @@ class ComposerStaticInitfa709a25a903b8fdebd1fd1fe304058d
         array (
             'PSR2R\\' => 6,
         ),
+        'M' => 
+        array (
+            'Masterminds\\' => 12,
+        ),
         'D' => 
         array (
             'Doctrine\\Instantiator\\' => 22,
@@ -48,6 +52,10 @@ class ComposerStaticInitfa709a25a903b8fdebd1fd1fe304058d
         'PSR2R\\' => 
         array (
             0 => __DIR__ . '/..' . '/fig-r/psr2r-sniffer/PSR2R',
+        ),
+        'Masterminds\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/masterminds/html5/src',
         ),
         'Doctrine\\Instantiator\\' => 
         array (

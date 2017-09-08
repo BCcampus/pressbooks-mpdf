@@ -5,3 +5,5 @@ vendor/*
 !vendor/composer
 !vendor/mpdf
 !vendor/setasign
+!vendor/masterminds
+
