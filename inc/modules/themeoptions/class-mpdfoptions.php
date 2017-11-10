@@ -3,12 +3,11 @@
  * @author  Pressbooks <code@pressbooks.com>
  * @license GPLv2 (or any later version)
  */
-namespace Pressbooks\Modules\ThemeOptions;
+namespace BCcampus\Modules\ThemeOptions;
 
-use Pressbooks\Container;
-use Pressbooks\CustomCss;
+use Pressbooks;
 
-class MPDFOptions extends \Pressbooks\Options {
+class MPDFOptions extends Pressbooks\Options {
 
 	/**
 	 * The value for option: pressbooks_theme_options_mpdf_version
@@ -523,7 +522,7 @@ class MPDFOptions extends \Pressbooks\Options {
 	 * @return array $tabs
 	 */
 	static function addTab( $tabs ) {
-		$tabs['mpdf'] = '\Pressbooks\Modules\ThemeOptions\MPDFOptions';
+		$tabs['mpdf'] = '\BCcampus\Modules\ThemeOptions\MpdfOptions';
 		return $tabs;
 	}
 

@@ -5,7 +5,7 @@
  * @license GPLv2 (or any later version))
  */
 
-namespace Pressbooks\Modules\Export\Mpdf;
+namespace BCcampus\Modules\Export\Mpdf;
 
 use mPDF;
 
@@ -35,7 +35,11 @@ use mPDF;
  *
  */
 
+use Pressbooks\Book;
+use Pressbooks\HtmLawed;
+use Pressbooks\Sanitize;
 use Pressbooks\Modules\Export\Export;
+use Pressbooks\Taxonomy;
 
 class Pdf extends Export {
 
@@ -125,7 +129,7 @@ class Pdf extends Export {
 		$this->globalOptions = get_option( 'pressbooks_theme_options_global' );
 		$this->bookTitle = get_bloginfo( 'name' );
 		$this->exportStylePath = $this->getExportStylePath( 'mpdf' );
-		$this->bookMeta = \Pressbooks\Book::getBookInformation();
+		$this->bookMeta = Book::getBookInformation();
 		$this->numbered = ( 1 === absint( $this->globalOptions['chapter_numbers'] ) ) ? true : false;
 	}
 
@@ -359,7 +363,7 @@ class Pdf extends Export {
 				return;
 			}
 
-			if ( \Pressbooks\Taxonomy::getFrontMatterType( $page['ID'] ) === $type ) {
+			if ( Taxonomy::getFrontMatterType( $page['ID'] ) === $type ) {
 				$page['mpdf_omit_toc'] = true;
 				$this->addPage( $page, $page_options, false, false );
 			}
@@ -383,7 +387,7 @@ class Pdf extends Export {
 
 		foreach ( $contents as $front_matter ) {
 			// safety
-			$type = \Pressbooks\Taxonomy::getFrontMatterType( $front_matter['ID'] );
+			$type = Taxonomy::getFrontMatterType( $front_matter['ID'] );
 			if ( 'dedication' === $type || 'epigraph' === $type || 'title-page' === $type || 'before-title' === $type ) {
 					continue; // Skip
 			}
@@ -492,7 +496,7 @@ class Pdf extends Export {
 		// allow override
 		$entry = apply_filters( 'mpdf_get_toc_entry', $page );
 		// sanitize
-		$entry = \Pressbooks\Sanitize\filter_title( $entry );
+		$entry = Sanitize\filter_title( $entry );
 
 		return $entry;
 	}
@@ -533,7 +537,7 @@ class Pdf extends Export {
 			'tidy' => -1,
 		];
 
-		return \Pressbooks\HtmLawed::filter( $filtered, $config );
+		return HtmLawed::filter( $filtered, $config );
 	}
 
 	/**
@@ -568,7 +572,7 @@ class Pdf extends Export {
 		// override
 		$footer = apply_filters( 'mpdf_get_footer', $content );
 		// sanitize
-		$footer = \Pressbooks\Sanitize\filter_title( $footer );
+		$footer = Sanitize\filter_title( $footer );
 
 		return $footer;
 	}
@@ -591,7 +595,7 @@ class Pdf extends Export {
 		// override
 		$header = apply_filters( 'mpdf_get_header', $content );
 		//sanitize
-		$header = \Pressbooks\Sanitize\filter_title( $header );
+		$header = Sanitize\filter_title( $header );
 
 		return $header;
 	}
@@ -605,7 +609,7 @@ class Pdf extends Export {
 	 */
 	function getOrderedBookContents() {
 
-		$book_contents = \Pressbooks\Book::getBookContents();
+		$book_contents = Book::getBookContents();
 
 		$ordered = [];
 
@@ -636,8 +640,8 @@ class Pdf extends Export {
 								$chapter['mpdf_level'] = $part['mpdf_level'] + 1;
 								$ordered[] = $chapter;
 
-								if ( \Pressbooks\Modules\Export\Export::isParsingSubsections() === true ) {
-									$sections = \Pressbooks\Book::getSubsections( $chapter['ID'] );
+								if ( true === Export::isParsingSubsections() ) {
+									$sections = Book::getSubsections( $chapter['ID'] );
 									if ( $sections ) {
 										foreach ( $sections as $section ) {
 											$section['mpdf_level'] = $part['mpdf_level'] + 2;
@@ -658,8 +662,8 @@ class Pdf extends Export {
 						$item['mpdf_level'] = 1;
 						$ordered[] = $item;
 
-						if ( \Pressbooks\Modules\Export\Export::isParsingSubsections() === true ) {
-							$sections = \Pressbooks\Book::getSubsections( $item['ID'] );
+						if ( Export::isParsingSubsections() === true ) {
+							$sections = Book::getSubsections( $item['ID'] );
 							if ( $sections ) {
 								foreach ( $sections as $section ) {
 									$section['mpdf_level'] = 2;
@@ -851,7 +855,7 @@ class Pdf extends Export {
 	 */
 	static function addToModules( $modules ) {
 		if ( isset( $_POST['export_formats']['mpdf'] ) ) { // @codingStandardsIgnoreLine
-			$modules[] = '\Pressbooks\Modules\Export\Mpdf\Pdf';
+			$modules[] = '\BCcampus\Modules\Export\Mpdf\Pdf';
 		}
 		return $modules;
 	}

@@ -1,3 +1,5 @@
+.idea
+.travis.yml
 !vendor
 vendor/*
 !vendor/autoload.php
