@@ -59,7 +59,7 @@ add_action( 'init', function() {
 		define( '_MPDF_TEMP_PATH', $tmp_path );
 		define( '_MPDF_TTFONTDATAPATH', $ttffontdata_path );
 
-		\HM\Autoloader\register_class_path( 'Pressbooks', __DIR__ . '/inc' );
+		require_once __DIR__ . '/autoloader.php';
 		require_once __DIR__ . '/vendor/autoload.php';
 		require_once __DIR__ . '/hooks-admin.php';
 	}
