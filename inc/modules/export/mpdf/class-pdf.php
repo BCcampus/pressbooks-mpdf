@@ -7,7 +7,7 @@
 
 namespace BCcampus\Modules\Export\Mpdf;
 
-use mPDF;
+use Mpdf\Mpdf;
 
 /**
  * Available filters
@@ -145,7 +145,7 @@ class Pdf extends Export {
 		$contents = $this->getOrderedBookContents();
 
 		// set up mPDF
-		$this->mpdf = new mPDF( '' );
+		$this->mpdf = new Mpdf(['enableImports' => false, 'tempDir' => _MPDF_TEMP_PATH]);
 		$this->mpdf->SetAnchor2Bookmark( 1 );
 		$this->mpdf->ignore_invalid_utf8 = true;
 		if ( 1 === absint( $this->options['mpdf_mirror_margins'] ) ) {
