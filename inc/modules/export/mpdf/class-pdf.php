@@ -7,8 +7,6 @@
 
 namespace BCcampus\Modules\Export\Mpdf;
 
-use Mpdf\Mpdf;
-
 /**
  * Available filters
  *
@@ -34,7 +32,7 @@ use Mpdf\Mpdf;
  *     add_filter( 'mpdf_get_header', 'my_mpdf_header', 10, 1 );
  *
  */
-
+use Mpdf\Mpdf;
 use Mpdf\MpdfException;
 use Pressbooks\Book;
 use Pressbooks\HtmLawed;
