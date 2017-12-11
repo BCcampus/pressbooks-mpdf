@@ -2,18 +2,21 @@
   "name": "bccampus/pressbooks-mpdf",
   "description": "Open source PDF generation for Pressbooks via the mPDF library.",
   "type": "wordpress-plugin",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "homepage": "https://github.com/bccampus/pressbooks-mpdf",
   "license": "GPL-2.0+",
   "authors": [
     {
       "name": "Brad Payne",
-      "email": "brad@bradpayne.ca",
-      "homepage": "https://bradpayne.ca"
+      "homepage": "https://github.com/bdolor"
+    },
+    {
+      "name": "Ned Zimmerman",
+      "homepage": "https://github.com/greatislander"
     }
   ],
   "require": {
-    "mpdf/mpdf": "^6.1.4",
+    "mpdf/mpdf": "^7.0.0",
     "masterminds/html5": "^2.3.0"
   },
   "require-dev": {
