@@ -13,7 +13,7 @@
     }
   ],
   "require": {
-    "mpdf/mpdf": "^6.1.4"
+    "mpdf/mpdf": "^7.0.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^5.7",
