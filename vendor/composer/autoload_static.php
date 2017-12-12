@@ -32,7 +32,6 @@ class ComposerStaticInitfa709a25a903b8fdebd1fd1fe304058d
         'M' => 
         array (
             'Mpdf\\' => 5,
-            'Masterminds\\' => 12,
         ),
         'D' => 
         array (
@@ -67,10 +66,6 @@ class ComposerStaticInitfa709a25a903b8fdebd1fd1fe304058d
         'Mpdf\\' => 
         array (
             0 => __DIR__ . '/..' . '/mpdf/mpdf/src',
-        ),
-        'Masterminds\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/masterminds/html5/src',
         ),
         'Doctrine\\Instantiator\\' => 
         array (
