@@ -34,6 +34,7 @@ namespace BCcampus\Modules\Export\Mpdf;
  */
 use Mpdf\Mpdf;
 use Mpdf\MpdfException;
+use Masterminds\HTML5;
 use Pressbooks\Book;
 use Pressbooks\Sanitize;
 use Pressbooks\Modules\Export\Export;
