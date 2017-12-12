@@ -38,7 +38,6 @@ use Masterminds\HTML5;
 use Pressbooks\Book;
 use Pressbooks\Sanitize;
 use Pressbooks\Modules\Export\Export;
-use Pressbooks\Taxonomy;
 
 class Pdf extends Export {
 
@@ -157,7 +156,8 @@ class Pdf extends Export {
 		$filename         = $this->timestampedFileName( '._oss.pdf' );
 		$this->outputPath = $filename;
 		$contents         = file_get_contents( $this->url );
-		$doc              = new HTML5();
+		$options          = [ 'preserveWhiteSpace' => false ];
+		$doc              = new HTML5( $options );
 		$dom              = $doc->loadHTML( $contents );
 
 		// set up mPDF
@@ -264,191 +264,17 @@ class Pdf extends Export {
 		$this->addPage( $page, $page_options, false, false );
 	}
 
-	/**
-	 * Add book information page, otherwise known as title page
-	 *
-	 */
-	function addBookInfo() {
-		$page_options = [
-			'suppress'     => 'on',
-			'margin-left'  => 15,
-			'margin-right' => 15,
-		];
-
-
-		$page = [
-			'post_title'    => '',
-			'post_content'  => '',
-			'post_type'     => 'bookinfo',
-			'mpdf_level'    => 1,
-			'mpdf_omit_toc' => true,
-		];
-
-		$this->addPage( $page, $page_options, false, false );
-	}
 
 	/**
-	 * Copyright information on a separate page
-	 *
+	 * @param \DOMDocument $dom
 	 */
-	function addCopyright() {
-		$options      = $this->globalOptions;
-		$page_options = [
-			'suppress'     => 'on',
-			'margin-left'  => 15,
-			'margin-right' => 15,
-		];
-
-
-		$page = [
-			'post_title'    => '',
-			'post_content'  => '',
-			'post_type'     => 'bookinfo',
-			'mpdf_level'    => 1,
-			'mpdf_omit_toc' => true,
-		];
-
-		$this->addPage( $page, $page_options, false, false );
-	}
-
-	/**
-	 * Add front matter of a specific/special type
-	 *
-	 * @param string $type - special content placed ahead of everything else
-	 * @param array $contents - book contents
-	 */
-	function addFrontMatterByType( $type, $contents ) {
-		$page_options = [
-			'suppress' => 'on',
-		];
-
-		foreach ( $contents as $index => $page ) {
-			// If we hit non front-matter post types we won't see anymore front-matter
-			if ( 'front-matter' !== $page['post_type'] ) {
-				return;
-			}
-
-			if ( Taxonomy::getFrontMatterType( $page['ID'] ) === $type ) {
-				$page['mpdf_omit_toc'] = true;
-				$this->addPage( $page, $page_options, false, false );
-			}
-		}
-	}
-
-	/**
-	 * Adds front matter, resets the page numbering on the first loop,
-	 * romanizes the numeric style
-	 *
-	 * @param array $contents
-	 */
-	function addFrontMatter( array $contents ) {
-
-		$first_iteration = true;
-		$page_options    = [
-			'pagenumstyle' => 'i',
-			'margin-left'  => 15,
-			'margin-right' => 15,
-		];
-
-		foreach ( $contents as $front_matter ) {
-			// safety
-			$type = Taxonomy::getFrontMatterType( $front_matter['ID'] );
-			if ( 'dedication' === $type || 'epigraph' === $type || 'title-page' === $type || 'before-title' === $type ) {
-				continue; // Skip
-			}
-
-			// only reset the page number on first iteration
-			$page_options['resetpagenum'] = ( true === (bool) $first_iteration ) ? 1 : 0;
-
-			// assumes the array of book contents is in order
-			if ( 'front-matter' !== $front_matter['post_type'] ) {
-				return;
-			}
-			if ( ! empty( $front_matter['post_content'] ) ) {
-				$this->addPage( $front_matter, $page_options, true, true );
-				$first_iteration = false;
-			}
-		}
-	}
-
-	function addPartsAndChapters( $contents ) {
-		// change the numbering system to numeric
-		// iterate through, parts, chapters, back-matter
-		$first_iteration = true;
-		$i               = 1;
-		$page_options    = [];
-		foreach ( $contents as $page ) {
-
-			if ( 'front-matter' === $page['post_type'] ) {
-				continue; //skip all front-matter
-			}
-
-			if ( true === (bool) $first_iteration ) {
-				$page_options['pagenumstyle'] = 1;
-			}
-			$page['chapter_num'] = $i;
-			$this->addPage( $page, $page_options );
-			$first_iteration = false;
-			if ( 'part' !== $page['post_type'] ) {
-				$i ++;
-			}
-		}
-	}
-
-	/**
-	 * Add a page to the pdf
-	 *
-	 * @param array $page - the content
-	 * @param array $page_options - numbering reset, style, suppress adding to TOC
-	 * @param boolean $display_footer turn on/off footer display
-	 * @param boolean $display_header turn on/off header display
-	 *
-	 * @return boolean
-	 */
-	function addPage( $page, $page_options = [], $display_footer = true, $display_header = true ) {
-		// defaults
-		$defaults = [
-			'suppress'     => 'off',
-			'resetpagenum' => 0,
-			'pagenumstyle' => 1,
-			'margin-right' => $this->options['mpdf_right_margin'],
-			'margin-left'  => $this->options['mpdf_left_margin'],
-			'sheet-size'   => $this->options['mpdf_page_size'],
-		];
-
-		$options   = \wp_parse_args( $page_options, $defaults );
-		$toc_entry = ( 'chapter' === $page['post_type'] && true === $this->numbered ) ? $page['chapter_num'] . ' ' . $page['post_title'] : $page['post_title'];
-		$options   = \wp_parse_args( $page_options, $defaults );
-		$toc_entry = ( 'chapter' === $page['post_type'] && true === $this->numbered ) ? $page['chapter_num'] . ' ' . $page['post_title'] : $page['post_title'];
-
-		if ( ! empty( $page['post_content'] ) || 'part' === $page['post_type'] ) {
-
-			$this->mpdf->SetFooter( $this->getFooter( $display_footer, $this->bookTitle . '| | {PAGENO}' ) );
-			$this->mpdf->SetHeader( $this->getHeader( $display_header, '' ) );
-
-			$this->mpdf->AddPageByArray( $options );
-
-			if ( empty( $page['mpdf_omit_toc'] ) ) {
-				$this->mpdf->TOC_Entry( $this->getTocEntry( $toc_entry ), $page['mpdf_level'] );
-				$this->mpdf->Bookmark( $this->getBookmarkEntry( $page ), $page['mpdf_level'] );
-			}
-
-			// TODO Make this hookable.
-			$this->mpdf->WriteHTML( '' );
-
-			return true;
-		}
-
-		return false;
-	}
-
 	protected function iterator( \DOMDocument $dom ) {
 		// assumes xhtml output puts all pages into first level children of body node
-		$parts = $dom->getElementsByTagName( 'body' )->item( 0 )->childNodes;
+		$pages = $dom->getElementsByTagName( 'body' )->item( 0 )->childNodes;
 
-		foreach ( $parts as $part ) {
+		foreach ( $pages as $page ) {
 			// avoid text nodes
-			if ( XML_ELEMENT_NODE === $part->nodeType ) {
+			if ( XML_ELEMENT_NODE === $page->nodeType ) {
 				$page_options = [];
 				$defaults     = [
 					'suppress'     => 'off',
@@ -459,9 +285,26 @@ class Pdf extends Export {
 					'sheet-size'   => $this->options['mpdf_page_size'],
 				];
 
+				/****************************************
+				 * Headers and Footers
+				 *****************************************/
+				// assumes the div class contains 'chapter, front-matter, back-matter'
+				$display = ( false !== stripos( $page->getAttribute( 'class' ), 'chapter' ) ) ? true : false;
+
+				$this->mpdf->SetFooter( $this->getFooter( $display, $this->bookTitle . '| | {PAGENO}' ) );
+				$this->mpdf->SetHeader( $this->getHeader( $display, $page ) );
+
+				/****************************************
+				 * Table of Contents
+				 *****************************************/
+
+//				$this->mpdf->TOC_Entry( $this->getTocEntry( $page ) , 1);
+//				$this->mpdf->Bookmark( $this->getBookmarkEntry( $page ) , 1 );
+
+
 				$options = \wp_parse_args( $page_options, $defaults );
 				$this->mpdf->AddPageByArray( $options );
-				$html = $dom->saveHTML( $part );
+				$html = $dom->saveHTML( $page );
 				$this->mpdf->WriteHTML( $html );
 			}
 		}
@@ -535,14 +378,23 @@ class Pdf extends Export {
 	 *
 	 * @return string
 	 */
-	function getHeader( $display = true, $content = '' ) {
+	function getHeader( $display = true, \DOMElement $content ) {
 		// bail early
 		if ( false === (bool) $display ) {
 			return '';
 		}
+		$chapter_title = '';
 
+		// assumes chapter title is in div class 'chapter-title'
+		if ( ! empty( $content ) ) {
+			$headings = $content->getElementsByTagName( 'h2' );
+
+			foreach ( $headings as $heading ) {
+				$chapter_title = ( 'chapter-title' === $heading->getAttribute( 'class' ) ) ? $heading->nodeValue : '';
+			}
+		}
 		// override
-		$header = apply_filters( 'mpdf_get_header', $content );
+		$header = apply_filters( 'mpdf_get_header', $chapter_title );
 		//sanitize
 		$header = Sanitize\filter_title( $header );
 
