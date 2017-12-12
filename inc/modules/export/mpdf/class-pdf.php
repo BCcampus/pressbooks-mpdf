@@ -281,10 +281,6 @@ class Pdf extends Export {
 			'post_content'  => '',
 			'post_type'     => 'bookinfo',
 			'mpdf_level'    => 1,
-			'post_title'    => '',
-			'post_content'  => '',
-			'post_type'     => 'bookinfo',
-			'mpdf_level'    => 1,
 			'mpdf_omit_toc' => true,
 		];
 
@@ -700,46 +696,4 @@ class Pdf extends Export {
 	}
 
 
-	/**
-	 * Dependency check.
-	 *
-	 * @return bool
-	 */
-	static function hasDependencies() {
-		return true;
-	}
-
-	/**
-	 * Add to export formats.
-	 *
-	 * @since 2.0.0
-	 * @author Book Oven Inc. <code@pressbooks.com>
-	 *
-	 * @param array $formats a multidimensional array of standard and exotic formats
-	 *
-	 * @return array $formats
-	 */
-	static function addToFormats( $formats ) {
-		$formats['standard'] = [ 'mpdf' => __( 'PDF (mPDF)', 'pressbooks-mpdf' ) ] + $formats['standard'];
-
-		return $formats;
-	}
-
-	/**
-	 * Add to export modules.
-	 *
-	 * @since 2.0.0
-	 * @author Book Oven Inc. <code@pressbooks.com>
-	 *
-	 * @param array $modules an array of active export module classnames
-	 *
-	 * @return array $modules
-	 */
-	static function addToModules( $modules ) {
-		if ( isset( $_POST['export_formats']['mpdf'] ) ) { // @codingStandardsIgnoreLine
-			$modules[] = '\BCcampus\Modules\Export\Mpdf\Pdf';
-		}
-
-		return $modules;
-	}
 }
