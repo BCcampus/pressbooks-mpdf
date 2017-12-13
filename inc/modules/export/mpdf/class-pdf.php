@@ -237,6 +237,7 @@ class Pdf extends Prince\Pdf {
 
 	/**
 	 * Sets Available PDF Document Metadata
+	 * @see https://mpdf.github.io/setting-pdf-file-properties/document-metadata.html
 	 */
 	protected function setDocumentMeta() {
 		( isset( $this->bookMeta['pb_title'] ) ) ? $this->mpdf->SetTitle( $this->bookMeta['pb_title'] ) : '';
@@ -260,11 +261,11 @@ class Pdf extends Prince\Pdf {
 		$options = [
 			'paging'           => true,
 			'links'            => true,
-			'toc-bookmarkText' => 'toc',
-			'toc-preHTML'      => '<h1 class="toc">Contents</h1>',
-			'toc-margin-left'  => 15,
-			'toc-margin-right' => 15,
+			'suppress'         => 'on',
+			'toc_bookmarkText' => 'toc',
+			'toc_preHTML'      => '<h1 class="toc">Contents</h1>',
 		];
+
 		$this->mpdf->TOCpagebreakByArray( $options );
 	}
 
@@ -306,11 +307,6 @@ class Pdf extends Prince\Pdf {
 		foreach ( $pages as $page ) {
 			// avoid text nodes
 			if ( XML_ELEMENT_NODE === $page->nodeType ) {
-				$defaults = [
-					'suppress'     => 'off',
-					'resetpagenum' => 0,
-					'pagenumstyle' => 'i',
-				];
 
 				/****************************************
 				 * Logic
@@ -320,9 +316,9 @@ class Pdf extends Prince\Pdf {
 
 				// Mpdf has its own table of contents mechanism
 				if ( 0 === strcmp( $context_id, 'toc' ) ) {
-					// add our own
-					//$this->addToc();
-
+					if ( 1 === $this->options['mpdf_include_toc']){
+						$this->addToc();
+					}
 					// prevent further processing
 					continue;
 				}
@@ -331,42 +327,48 @@ class Pdf extends Prince\Pdf {
 
 					case 'fron':
 						$display_header = false;
-						$display_footer = true;
-						$page_options   = [ 'suppress' => 'off', 'pagenumstyle' => 'i' ];
-						$toc_level      = 1;
+						$display_footer = false;
+						$page_options   = [ 'suppress' => 'off', 'pagenumstyle' => '1'];
+						$toc_level      = 0;
 						$element        = 'h1';
 						$class          = 'front-matter-title';
 						$title          = $this->getNodeValue( $page, $element, $class );
+						$add_to_toc     = true;
+						break;
 
 					case 'chap':
-						$display_header = true;
+						$display_header = false;
 						$display_footer = true;
-						$page_options   = [ 'suppress' => 'off', 'pagenumstyle' => '1' ];
-						$toc_level      = 1;
+						$page_options   = [ 'suppress' => 'off', 'pagenumstyle' => '1'];
+						$toc_level      = 0;
 						$element        = 'h2';
 						$class          = 'chapter-title';
 						$title          = $this->getNodeValue( $page, $element, $class );
+						$add_to_toc     = true;
 						break;
+
 					case 'part':
 						$display_header = false;
 						$display_footer = true;
-						$page_options   = [ 'suppress' => 'on' ];
-						$toc_level      = 2;
+						$page_options   = [ 'suppress' => 'on', 'pagenumstyle' => '1'  ];
+						$toc_level      = 1;
 						$element        = 'h1';
 						$class          = 'part-title';
 						$title          = $this->getNodeValue( $page, $element, $class );
-
+						$add_to_toc     = true;
 						break;
+
 					case 'back':
-						$display_header = true;
+						$display_header = false;
 						$display_footer = true;
 						$page_options   = [ 'suppress' => 'off', 'pagenumstyle' => '1' ];
-						$toc_level      = 1;
+						$toc_level      = 0;
 						$element        = 'h1';
 						$class          = 'back-matter-title';
 						$title          = $this->getNodeValue( $page, $element, $class );
-
+						$add_to_toc     = true;
 						break;
+
 					default:
 						$display_header = false;
 						$display_footer = false;
@@ -375,42 +377,42 @@ class Pdf extends Prince\Pdf {
 							'margin_left'  => 15,
 							'margin_right' => 15,
 						];
-						$toc_level      = 1;
+						$toc_level      = 0;
 						$element        = '';
 						$class          = '';
 						$title          = '';
+						$add_to_toc     = false;
 
 				}
-				// merge page_options with defaults
-				$options = \wp_parse_args( $page_options, $defaults );
+
 
 				/****************************************
 				 * Headers and Footers
 				 *****************************************/
-				$footer = $this->getFooter( $display_footer );
+				$footer = $this->getFooter( $display_footer, '' );
 				$header = $this->getHeader( $display_header, $title );
 
 				// prevents an unnecessary dive into Mpdf class
 				if ( $display_footer ) {
 					$this->mpdf->SetFooter( $footer );
-					unset( $footer );
 				}
 				if ( $display_header ) {
 					$this->mpdf->SetHeader( $header );
-					unset( $header );
 				}
 
 				/****************************************
 				 * Table of Contents
 				 *****************************************/
 
-				$this->mpdf->TOC_Entry( $this->getTocEntry( $title ), 1 );
-				$this->mpdf->Bookmark( $this->getBookmarkEntry( $title ), 1 );
+				if ( $add_to_toc && 1 === $this->options['mpdf_include_toc'] ) {
+					$this->mpdf->TOC_Entry( $this->getTocEntry( $title ), $toc_level );
+					$this->mpdf->Bookmark( $this->getBookmarkEntry( $title ), $toc_level );
+				}
 
 				/****************************************
 				 * Write to the PDF Document
 				 *****************************************/
-				$this->mpdf->AddPageByArray( $options );
+				$this->mpdf->AddPageByArray( $page_options );
 				$html = $dom->saveHTML( $page );
 				$this->mpdf->WriteHTML( $html );
 			}
@@ -458,12 +460,11 @@ class Pdf extends Prince\Pdf {
 	 * Return formatted footers.
 	 *
 	 * @param bool $display
-	 * @param string $content
-	 *   The post type being added to the page.
+	 * @param string $title
 	 *
 	 * @return string
 	 */
-	function getFooter( $display = true, $content = '' ) {
+	function getFooter( $display = true, $title = '' ) {
 
 		// bail early
 		if ( false === (bool) $display ) {
@@ -471,7 +472,7 @@ class Pdf extends Prince\Pdf {
 		}
 
 		// default content if none provided
-		$content = ( empty( $content ) ) ? $this->bookTitle . '| | {PAGENO}' : $content;
+		$content = $this->bookTitle . ' | ' . $title . ' | {PAGENO}' ;
 
 		// override
 		$footer = apply_filters( 'mpdf_get_footer', $content );
