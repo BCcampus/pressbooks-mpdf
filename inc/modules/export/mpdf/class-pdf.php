@@ -37,9 +37,9 @@ use Mpdf\MpdfException;
 use Masterminds\HTML5;
 use Pressbooks\Book;
 use Pressbooks\Sanitize;
-use Pressbooks\Modules\Export\Export;
+use Pressbooks\Modules\Export\Prince;
 
-class Pdf extends Export {
+class Pdf extends Prince\Pdf {
 
 	/**
 	 * Fullpath to book CSS file.
@@ -145,34 +145,40 @@ class Pdf extends Export {
 	 */
 	function convert() {
 
-		$filename         = $this->timestampedFileName( '._oss.pdf' );
-		$this->outputPath = $filename;
-		$contents         = file_get_contents( $this->url );
-		$options          = [ 'preserveWhiteSpace' => false ];
-		$doc              = new HTML5( $options );
-		$dom              = $doc->loadHTML( $contents );
+		$filename                = $this->timestampedFileName( '._oss.pdf' );
+		$this->outputPath        = $filename;
+		$contents                = file_get_contents( $this->url );
+		$doc                     = ( class_exists( HTML5::class ) ) ? new HTML5() : new \DOMDocument();
+		$doc->preserveWhiteSpace = false;
+		$dom                     = $doc->loadHTML( $contents );
 
 		$config = $this->setConfigVariables();
 
 		try {
 			$this->mpdf = new Mpdf( $config );
+			$this->setDocumentMeta();
 
 			// moar configuration
 			$this->mpdf->ignore_invalid_utf8 = true;
 			$this->mpdf->SetAnchor2Bookmark( 1 );
 			$this->mpdf->SetBasePath( home_url( '/' ) );
 			$this->mpdf->SetCompression( true );
-			//$this->mpdf->SetDefaultBodyCSS();
-
-			if ( 1 === absint( $this->options['mpdf_mirror_margins'] ) ) {
-				$this->mpdf->mirrorMargins = true;
-			}
-
-			$this->setCss();
 
 			// iterate over the xhtml domdocument
 			$this->iterator( $dom );
+
+			/****************************************
+			 * dumping the whole xhtml document in and using prince css
+			 * works but TOC and Bookmarks won't build in the mpdf way
+			 * works but is memory intensive for mpdf
+			 * works but mpdf config options are overwritten by prince options
+			 * works but is given unsupported CSS and specific prince styles
+			 *****************************************/
+			//$this->mpdf->WriteHTML( $contents );
+
+			// make the thing
 			$this->mpdf->Output( $this->outputPath, 'F' );
+
 		} catch ( MpdfException $e ) {
 			error_log( $e->getMessage() );
 		}
@@ -185,6 +191,11 @@ class Pdf extends Export {
 	 * @see https://github.com/mpdf/mpdf/blob/development/src/Config/ConfigVariables.php
 	 */
 	private function setConfigVariables() {
+		// CSS File
+		$css      = $this->kneadCss();
+		$css_file = $this->createTmpFile();
+		file_put_contents( $css_file, $css );
+
 		$map_pb_to_mpdf = [
 			'mpdf_page_size'      => 'format',
 			'mpdf_margin_left'    => 'margin_left',
@@ -196,7 +207,7 @@ class Pdf extends Export {
 		$config = [
 			'mode'              => 's',
 			'format'            => 'Letter',
-			'default_font_size' => '',
+			'default_font_size' => 0,
 			'default_font'      => '',
 			'margin_left'       => 15,
 			'margin_right'      => 15,
@@ -207,8 +218,9 @@ class Pdf extends Export {
 			'orientation'       => 'P',
 			'enableImports'     => false,
 			'anchor2Bookmark'   => 1,
+			'mirrorMargins'     => 1,
 			'tempDir'           => _MPDF_TEMP_PATH,
-//			'defaultCssFile' => '',
+			'defaultCssFile'    => $css_file,
 //				'fontDir' => _MPDF_TTFONTDATAPATH,
 		];
 
@@ -220,6 +232,18 @@ class Pdf extends Export {
 		}
 
 		return $config;
+
+	}
+
+	/**
+	 * Sets Available PDF Document Metadata
+	 */
+	protected function setDocumentMeta() {
+		( isset( $this->bookMeta['pb_title'] ) ) ? $this->mpdf->SetTitle( $this->bookMeta['pb_title'] ) : '';
+		( isset( $this->bookMeta['pb_author'] ) ) ? $this->mpdf->SetAuthor( $this->bookMeta['pb_author'] ) : '';
+		( isset( $this->bookMeta['pb_publisher'] ) ) ? $this->mpdf->SetCreator( $this->bookMeta['pb_publisher'] ) : '';
+		( isset( $this->bookMeta['pb_primary_subject'] ) ) ? $this->mpdf->SetSubject( $this->bookMeta['pb_primary_subject'] ) : '';
+		( isset( $this->bookMeta['pb_keywords_tags'] ) ) ? $this->mpdf->SetKeywords( $this->bookMeta['pb_keywords_tags'] ) : '';
 
 	}
 
@@ -262,15 +286,8 @@ class Pdf extends Export {
 			$content .= '<div style="text-align:center;"><img src="' . $this->bookMeta['pb_cover_image'] . '" alt="book-cover" title="' . bloginfo( 'name' ) . ' book cover" /></div>';
 		}
 
-		$page = [
-			'post_type'     => 'cover',
-			'post_content'  => $content,
-			'post_title'    => '',
-			'mpdf_level'    => 1,
-			'mpdf_omit_toc' => true,
-		];
-
-		$this->addPage( $page, $page_options, false, false );
+		$this->mpdf->AddPageByArray( $page_options );
+		$this->mpdf->WriteHTML( $content );
 	}
 
 
@@ -279,7 +296,12 @@ class Pdf extends Export {
 	 */
 	protected function iterator( \DOMDocument $dom ) {
 		// assumes xhtml output puts all pages into first level children of body node
+		// ex: body->div
 		$pages = $dom->getElementsByTagName( 'body' )->item( 0 )->childNodes;
+
+		if ( 1 === $this->options['mpdf_include_cover'] ) {
+			$this->addCover();
+		}
 
 		foreach ( $pages as $page ) {
 			// avoid text nodes
@@ -287,7 +309,7 @@ class Pdf extends Export {
 				$defaults = [
 					'suppress'     => 'off',
 					'resetpagenum' => 0,
-					'pagenumstyle' => 1,
+					'pagenumstyle' => 'i',
 				];
 
 				/****************************************
@@ -298,6 +320,10 @@ class Pdf extends Export {
 
 				// Mpdf has its own table of contents mechanism
 				if ( 0 === strcmp( $context_id, 'toc' ) ) {
+					// add our own
+					//$this->addToc();
+
+					// prevent further processing
 					continue;
 				}
 
@@ -305,50 +331,85 @@ class Pdf extends Export {
 
 					case 'fron':
 						$display_header = false;
-						$display_footer = false;
+						$display_footer = true;
 						$page_options   = [ 'suppress' => 'off', 'pagenumstyle' => 'i' ];
 						$toc_level      = 1;
+						$element        = 'h1';
+						$class          = 'front-matter-title';
+						$title          = $this->getNodeValue( $page, $element, $class );
+
 					case 'chap':
 						$display_header = true;
 						$display_footer = true;
 						$page_options   = [ 'suppress' => 'off', 'pagenumstyle' => '1' ];
 						$toc_level      = 1;
+						$element        = 'h2';
+						$class          = 'chapter-title';
+						$title          = $this->getNodeValue( $page, $element, $class );
 						break;
 					case 'part':
 						$display_header = false;
-						$display_footer = false;
+						$display_footer = true;
 						$page_options   = [ 'suppress' => 'on' ];
 						$toc_level      = 2;
+						$element        = 'h1';
+						$class          = 'part-title';
+						$title          = $this->getNodeValue( $page, $element, $class );
+
 						break;
 					case 'back':
 						$display_header = true;
 						$display_footer = true;
 						$page_options   = [ 'suppress' => 'off', 'pagenumstyle' => '1' ];
 						$toc_level      = 1;
+						$element        = 'h1';
+						$class          = 'back-matter-title';
+						$title          = $this->getNodeValue( $page, $element, $class );
+
 						break;
 					default:
 						$display_header = false;
 						$display_footer = false;
-						$page_options   = [ 'suppress' => 'on' ];
+						$page_options   = [
+							'suppress'     => 'on',
+							'margin_left'  => 15,
+							'margin_right' => 15,
+						];
 						$toc_level      = 1;
+						$element        = '';
+						$class          = '';
+						$title          = '';
 
 				}
+				// merge page_options with defaults
+				$options = \wp_parse_args( $page_options, $defaults );
 
 				/****************************************
 				 * Headers and Footers
 				 *****************************************/
-				$this->mpdf->SetHeader( $this->getHeader( $display_header, $page ) );
-				$this->mpdf->SetFooter( $this->getFooter( $display_footer, $this->bookTitle . '| | {PAGENO}' ) );
+				$footer = $this->getFooter( $display_footer );
+				$header = $this->getHeader( $display_header, $title );
+
+				// prevents an unnecessary dive into Mpdf class
+				if ( $display_footer ) {
+					$this->mpdf->SetFooter( $footer );
+					unset( $footer );
+				}
+				if ( $display_header ) {
+					$this->mpdf->SetHeader( $header );
+					unset( $header );
+				}
 
 				/****************************************
 				 * Table of Contents
 				 *****************************************/
 
-//				$this->mpdf->TOC_Entry( $this->getTocEntry( $page ) , 1);
-//				$this->mpdf->Bookmark( $this->getBookmarkEntry( $page ) , 1 );
+				$this->mpdf->TOC_Entry( $this->getTocEntry( $title ), 1 );
+				$this->mpdf->Bookmark( $this->getBookmarkEntry( $title ), 1 );
 
-
-				$options = \wp_parse_args( $page_options, $defaults );
+				/****************************************
+				 * Write to the PDF Document
+				 *****************************************/
 				$this->mpdf->AddPageByArray( $options );
 				$html = $dom->saveHTML( $page );
 				$this->mpdf->WriteHTML( $html );
@@ -359,14 +420,15 @@ class Pdf extends Export {
 	/**
 	 * Return the Table of Contents entry for this page.
 	 *
-	 * @param string $page
+	 * @param $title
 	 *
 	 * @return string
 	 */
-	function getTocEntry( $page ) {
+	function getTocEntry( $title ) {
 
 		// allow override
-		$entry = apply_filters( 'mpdf_get_toc_entry', $page );
+		$entry = apply_filters( 'mpdf_get_toc_entry', $title );
+
 		// sanitize
 		$entry = Sanitize\filter_title( $entry );
 
@@ -379,13 +441,13 @@ class Pdf extends Export {
 	 *
 	 * @staticvar int $id - to avoid collisions with identical page titles
 	 *
-	 * @param array $page
+	 * @param $title
 	 *
 	 * @return string
 	 */
-	function getBookmarkEntry( $page ) {
+	function getBookmarkEntry( $title ) {
 		static $id = 1;
-		$entry = $id . ' ' . $page['post_title'];
+		$entry = $id . ' ' . $title;
 		$id ++;
 
 		return $entry;
@@ -402,13 +464,18 @@ class Pdf extends Export {
 	 * @return string
 	 */
 	function getFooter( $display = true, $content = '' ) {
+
 		// bail early
 		if ( false === (bool) $display ) {
 			return '';
 		}
 
+		// default content if none provided
+		$content = ( empty( $content ) ) ? $this->bookTitle . '| | {PAGENO}' : $content;
+
 		// override
 		$footer = apply_filters( 'mpdf_get_footer', $content );
+
 		// sanitize
 		$footer = Sanitize\filter_title( $footer );
 
@@ -419,34 +486,48 @@ class Pdf extends Export {
 	 * Return formatted headers.
 	 *
 	 * @param bool $display
-	 * @param \DOMElement $content
-	 *  The post type being added to the page
+	 * @param $title
 	 *
 	 * @return string
 	 */
-	function getHeader( $display = true, \DOMElement $content ) {
+	function getHeader( $display = true, $title ) {
+
 		// bail early
 		if ( false === (bool) $display ) {
 			return '';
 		}
-		$chapter_title = '';
 
-		// assumes chapter title is in div class 'chapter-title'
-		if ( ! empty( $content ) ) {
-			$headings = $content->getElementsByTagName( 'h2' );
-
-			foreach ( $headings as $heading ) {
-				$chapter_title = ( 'chapter-title' === $heading->getAttribute( 'class' ) ) ? $heading->nodeValue : '';
-			}
-		}
 		// override
-		$header = apply_filters( 'mpdf_get_header', $chapter_title );
+		$header = apply_filters( 'mpdf_get_header', $title );
+
 		//sanitize
 		$header = Sanitize\filter_title( $header );
 
 		return $header;
 	}
 
+	/**
+	 * get the value of a node
+	 *
+	 * @param \DOMElement $content
+	 * @param $element
+	 * @param $class
+	 *
+	 * @return string
+	 */
+	private function getNodeValue( \DOMElement $content, $element, $class ) {
+		$title = '';
+
+		if ( ! empty( $content ) ) {
+			$headings = $content->getElementsByTagName( $element );
+
+			foreach ( $headings as $heading ) {
+				$title = ( $class === $heading->getAttribute( 'class' ) ) ? $heading->nodeValue : '';
+			}
+		}
+
+		return $title;
+	}
 
 	/**
 	 * Get current child and parent theme css files. Child themes only have one parent
@@ -477,6 +558,7 @@ class Pdf extends Export {
 		}
 		// get child theme files
 		$child_files = $theme->get_files( 'css' );
+
 		// exclude admin files
 		$children = $this->stripUnwantedStyles( $child_files );
 
@@ -518,29 +600,15 @@ class Pdf extends Export {
 		$css = '';
 
 		// check for child theme export file
-		$cssfile = $this->getExportStylePath( 'mpdf' );
+		$cssfile = $this->getExportStylePath( 'prince' );
 
 		// if empty, try the parent theme export directory
 		if ( empty( $cssfile ) ) {
-			$cssfile = realpath( get_template_directory() . '/export/mpdf/style.css' );
+			$cssfile = realpath( get_template_directory() . '/export/prince/style.css' );
 		}
 
-		if ( is_string( $cssfile ) && ! empty( $cssfile ) ) {
-			$css .= file_get_contents( $cssfile ) . "\n";
-		}
+		return $cssfile;
 
-		// grab the web theme, ONLY as a backup
-		if ( empty( $css ) ) {
-			$theme = wp_get_theme();
-			$css   = $this->getThemeCss( $theme );
-		}
-
-		// Theme options override
-		$css .= apply_filters( 'pb_mpdf_css_override', $css ) . "\n";
-
-		if ( ! empty( $css ) ) {
-			$this->mpdf->WriteHTML( $css, self::MODE_CSS );
-		}
 	}
 
 	/**
