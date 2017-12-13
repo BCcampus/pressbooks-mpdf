@@ -35,6 +35,7 @@ namespace BCcampus\Modules\Export\Mpdf;
 use Mpdf\Mpdf;
 use Mpdf\MpdfException;
 use Masterminds\HTML5;
+use phpDocumentor\Reflection\Types\Boolean;
 use Pressbooks\Book;
 use Pressbooks\Sanitize;
 use Pressbooks\Modules\Export\Prince;
@@ -261,6 +262,7 @@ class Pdf extends Prince\Pdf {
 		$options = [
 			'paging'           => true,
 			'links'            => true,
+			'tocindent'        => 1,
 			'suppress'         => 'on',
 			'toc_bookmarkText' => 'toc',
 			'toc_preHTML'      => '<h1 class="toc">Contents</h1>',
@@ -296,7 +298,7 @@ class Pdf extends Prince\Pdf {
 	 * @param \DOMDocument $dom
 	 */
 	protected function iterator( \DOMDocument $dom ) {
-		// assumes xhtml output puts all pages into first level children of body node
+		// assumes xhtml output has all pages in the first level children of body node
 		// ex: body->div
 		$pages = $dom->getElementsByTagName( 'body' )->item( 0 )->childNodes;
 
@@ -327,8 +329,8 @@ class Pdf extends Prince\Pdf {
 
 					case 'fron':
 						$display_header = false;
-						$display_footer = false;
-						$page_options   = [ 'suppress' => 'off', 'pagenumstyle' => '1'];
+						$display_footer = true;
+						$page_options   = [ 'suppress' => 'off', 'pagenumstyle' => 'i'];
 						$toc_level      = 0;
 						$element        = 'h1';
 						$class          = 'front-matter-title';
@@ -387,18 +389,9 @@ class Pdf extends Prince\Pdf {
 
 
 				/****************************************
-				 * Headers and Footers
+				 * Add Page to Document Array
 				 *****************************************/
-				$footer = $this->getFooter( $display_footer, '' );
-				$header = $this->getHeader( $display_header, $title );
-
-				// prevents an unnecessary dive into Mpdf class
-				if ( $display_footer ) {
-					$this->mpdf->SetFooter( $footer );
-				}
-				if ( $display_header ) {
-					$this->mpdf->SetHeader( $header );
-				}
+				$this->mpdf->AddPageByArray( $page_options );
 
 				/****************************************
 				 * Table of Contents
@@ -410,13 +403,27 @@ class Pdf extends Prince\Pdf {
 				}
 
 				/****************************************
-				 * Write to the PDF Document
+				 * Headers and Footers
 				 *****************************************/
-				$this->mpdf->AddPageByArray( $page_options );
+				$footer = $this->getFooter( $display_footer, $title );
+				$header = $this->getHeader( $display_header, $title );
+
+				// prevents an unnecessary dive into Mpdf class
+				if ( $display_footer ) {
+					$this->mpdf->SetFooter( $footer );
+				}
+				if ( $display_header ) {
+					$this->mpdf->SetHeader( $header );
+				}
+
+				/****************************************
+					Do the thing
+				*****************************************/
 				$html = $dom->saveHTML( $page );
 				$this->mpdf->WriteHTML( $html );
 			}
 		}
+
 	}
 
 	/**
@@ -464,10 +471,10 @@ class Pdf extends Prince\Pdf {
 	 *
 	 * @return string
 	 */
-	function getFooter( $display = true, $title = '' ) {
+	function getFooter( bool $display, $title = '' ) {
 
 		// bail early
-		if ( false === (bool) $display ) {
+		if ( false === $display ) {
 			return '';
 		}
 
@@ -491,10 +498,10 @@ class Pdf extends Prince\Pdf {
 	 *
 	 * @return string
 	 */
-	function getHeader( $display = true, $title ) {
+	function getHeader( bool $display, $title = '' ) {
 
 		// bail early
-		if ( false === (bool) $display ) {
+		if ( false === $display ) {
 			return '';
 		}
 
