@@ -126,7 +126,7 @@ class Pdf extends Prince\Pdf {
 		$this->options         = get_option( 'pressbooks_theme_options_mpdf' );
 		$this->globalOptions   = get_option( 'pressbooks_theme_options_global' );
 		$this->bookTitle       = get_bloginfo( 'name' );
-		$this->exportStylePath = $this->getExportStylePath( 'mpdf' );
+		$this->exportStylePath = $this->getExportStylePath( 'prince' );
 		$this->bookMeta        = Book::getBookInformation();
 
 		// Set the access protected "format/xhtml" URL with a valid timestamp and NONCE
@@ -161,6 +161,8 @@ class Pdf extends Prince\Pdf {
 
 			// moar configuration
 			$this->mpdf->ignore_invalid_utf8 = true;
+			$this->mpdf->defaultfooterline   = 0;
+			$this->mpdf->defaultheaderline   = 0;
 			$this->mpdf->SetAnchor2Bookmark( 1 );
 			$this->mpdf->SetBasePath( home_url( '/' ) );
 			$this->mpdf->SetCompression( true );
@@ -169,11 +171,12 @@ class Pdf extends Prince\Pdf {
 			$this->iterator( $dom );
 
 			/****************************************
+			 * alternate route NOTES:
 			 * dumping the whole xhtml document in and using prince css
-			 * works but TOC and Bookmarks won't build in the mpdf way
-			 * works but is memory intensive for mpdf
-			 * works but mpdf config options are overwritten by prince options
-			 * works but is given unsupported CSS and specific prince styles
+			 * works but MPDF TOC and Bookmarks don't build
+			 * works but no page numbering
+			 * works but is more memory intensive for mpdf
+			 * works but mpdf headers and footer functionality is lost
 			 *****************************************/
 			//$this->mpdf->WriteHTML( $contents );
 
@@ -190,10 +193,12 @@ class Pdf extends Prince\Pdf {
 	/**
 	 * Give Mpdf all the things
 	 * @see https://github.com/mpdf/mpdf/blob/development/src/Config/ConfigVariables.php
+	 * @see https://mpdf.github.io/reference/mpdf-variables/overview.html
 	 */
 	private function setConfigVariables() {
 		// CSS File
 		$css      = $this->kneadCss();
+		$css      = $this->filterCss( $css );
 		$css_file = $this->createTmpFile();
 		file_put_contents( $css_file, $css );
 
@@ -302,6 +307,7 @@ class Pdf extends Prince\Pdf {
 		// ex: body->div
 		$pages = $dom->getElementsByTagName( 'body' )->item( 0 )->childNodes;
 
+		// first thing's first, gotta have a purty pikcher
 		if ( 1 === $this->options['mpdf_include_cover'] ) {
 			$this->addCover();
 		}
@@ -318,7 +324,7 @@ class Pdf extends Prince\Pdf {
 
 				// Mpdf has its own table of contents mechanism
 				if ( 0 === strcmp( $context_id, 'toc' ) ) {
-					if ( 1 === $this->options['mpdf_include_toc']){
+					if ( 1 === $this->options['mpdf_include_toc'] ) {
 						$this->addToc();
 					}
 					// prevent further processing
@@ -330,7 +336,7 @@ class Pdf extends Prince\Pdf {
 					case 'fron':
 						$display_header = false;
 						$display_footer = true;
-						$page_options   = [ 'suppress' => 'off', 'pagenumstyle' => 'i'];
+						$page_options   = [ 'suppress' => 'off', 'pagenumstyle' => 'i' ];
 						$toc_level      = 0;
 						$element        = 'h1';
 						$class          = 'front-matter-title';
@@ -341,8 +347,8 @@ class Pdf extends Prince\Pdf {
 					case 'chap':
 						$display_header = false;
 						$display_footer = true;
-						$page_options   = [ 'suppress' => 'off', 'pagenumstyle' => '1'];
-						$toc_level      = 0;
+						$page_options   = [ 'suppress' => 'off', 'pagenumstyle' => '1' ];
+						$toc_level      = 1;
 						$element        = 'h2';
 						$class          = 'chapter-title';
 						$title          = $this->getNodeValue( $page, $element, $class );
@@ -352,8 +358,8 @@ class Pdf extends Prince\Pdf {
 					case 'part':
 						$display_header = false;
 						$display_footer = true;
-						$page_options   = [ 'suppress' => 'on', 'pagenumstyle' => '1'  ];
-						$toc_level      = 1;
+						$page_options   = [ 'suppress' => 'on', 'pagenumstyle' => '1' ];
+						$toc_level      = 0;
 						$element        = 'h1';
 						$class          = 'part-title';
 						$title          = $this->getNodeValue( $page, $element, $class );
@@ -404,15 +410,15 @@ class Pdf extends Prince\Pdf {
 				/****************************************
 				 * Headers and Footers
 				 *****************************************/
-				$footer = ($display_footer) ? $this->getFooter( $display_footer ) : '';
-				$header = ($display_header) ? $this->getHeader( $display_header ) : '';
+				$footer = ( $display_footer ) ? $this->getFooter( $display_footer ) : '';
+				$header = ( $display_header ) ? $this->getHeader( $display_header ) : '';
 
 				$this->mpdf->SetFooter( $footer );
 				$this->mpdf->SetHeader( $header );
 
 				/****************************************
-					Do the thing
-				*****************************************/
+				 * Do the thing
+				 *****************************************/
 				$html = $dom->saveHTML( $page );
 				$this->mpdf->WriteHTML( $html );
 			}
@@ -461,11 +467,11 @@ class Pdf extends Prince\Pdf {
 	 * Return formatted footers.
 	 *
 	 * @param bool $display
-	 * @param string $title
+	 * @param string $content
 	 *
 	 * @return string
 	 */
-	function getFooter( bool $display, $title = '' ) {
+	function getFooter( bool $display, $content = '' ) {
 
 		// bail early
 		if ( false === $display ) {
@@ -473,7 +479,7 @@ class Pdf extends Prince\Pdf {
 		}
 
 		// default content if none provided
-		$content = $this->bookTitle . ' | ' . $title . ' | {PAGENO}' ;
+		$content = ( empty( $content ) ) ? ' | {PAGENO} | ' : $content;
 
 		// override
 		$footer = apply_filters( 'mpdf_get_footer', $content );
@@ -488,19 +494,21 @@ class Pdf extends Prince\Pdf {
 	 * Return formatted headers.
 	 *
 	 * @param bool $display
-	 * @param $title
+	 * @param string $content
 	 *
 	 * @return string
 	 */
-	function getHeader( bool $display, $title = '' ) {
+	function getHeader( bool $display, $content = '' ) {
 
 		// bail early
 		if ( false === $display ) {
 			return '';
 		}
 
+		$content = ( empty( $content ) ) ? ' | | ' : $content;
+
 		// override
-		$header = apply_filters( 'mpdf_get_header', $title );
+		$header = apply_filters( 'mpdf_get_header', $content );
 
 		//sanitize
 		$header = Sanitize\filter_title( $header );
@@ -529,88 +537,6 @@ class Pdf extends Prince\Pdf {
 		}
 
 		return $title;
-	}
-
-	/**
-	 * Get current child and parent theme css files. Child themes only have one parent
-	 * theme, and 99% of the time this is 'Luther' or /pressbooks-book/ whose stylesheet is
-	 * named 'style.css'
-	 *
-	 * @param object $theme
-	 *
-	 * @return string $css
-	 */
-	function getThemeCss( $theme ) {
-
-		$css = '';
-
-		// get parent theme files
-		if ( is_object( $theme->parent() ) ) {
-			$parent_files = $theme->parent()->get_files( 'css' );
-
-			// exclude admin files
-			$parents = $this->stripUnwantedStyles( $parent_files );
-
-			// hopefully there is something left for us to grab
-			if ( ! empty( $parents ) ) {
-				foreach ( $parents as $parent ) {
-					$css .= file_get_contents( $parent ) . "\n";
-				}
-			}
-		}
-		// get child theme files
-		$child_files = $theme->get_files( 'css' );
-
-		// exclude admin files
-		$children = $this->stripUnwantedStyles( $child_files );
-
-		if ( ! empty( $children ) ) {
-			foreach ( $children as $child ) {
-				$css .= file_get_contents( $child ) . "\n";
-			}
-		}
-
-		return $css;
-	}
-
-	/**
-	 * Helper function to omit unwanted stylesheets in the output
-	 *
-	 * @param array $styles
-	 *
-	 * @return array $sytles
-	 */
-	private function stripUnwantedStyles( array $styles ) {
-
-		$unwanted = [
-			'editor-style.css',
-		];
-
-		foreach ( $unwanted as $key ) {
-			if ( array_key_exists( $key, $styles ) ) {
-				unset( $styles[ $key ] );
-			}
-		}
-
-		return $styles;
-	}
-
-	/**
-	 * Add all css files
-	 */
-	function setCss() {
-		$css = '';
-
-		// check for child theme export file
-		$cssfile = $this->getExportStylePath( 'prince' );
-
-		// if empty, try the parent theme export directory
-		if ( empty( $cssfile ) ) {
-			$cssfile = realpath( get_template_directory() . '/export/prince/style.css' );
-		}
-
-		return $cssfile;
-
 	}
 
 	/**
@@ -661,6 +587,15 @@ class Pdf extends Prince\Pdf {
 		}
 
 		return false;
+	}
+
+	private function filterCss( $css ) {
+		$filtered = '';
+		if ( ! empty( $css ) ) {
+			$filtered = preg_replace( '/page-break-(before|after)\:(\s?)(right|auto|left|always|inherit);/i', '', $css );
+		}
+
+		return $filtered;
 	}
 
 
