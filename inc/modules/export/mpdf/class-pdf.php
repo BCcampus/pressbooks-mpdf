@@ -396,7 +396,6 @@ class Pdf extends Prince\Pdf {
 				/****************************************
 				 * Table of Contents
 				 *****************************************/
-
 				if ( $add_to_toc && 1 === $this->options['mpdf_include_toc'] ) {
 					$this->mpdf->TOC_Entry( $this->getTocEntry( $title ), $toc_level );
 					$this->mpdf->Bookmark( $this->getBookmarkEntry( $title ), $toc_level );
@@ -405,16 +404,11 @@ class Pdf extends Prince\Pdf {
 				/****************************************
 				 * Headers and Footers
 				 *****************************************/
-				$footer = $this->getFooter( $display_footer, $title );
-				$header = $this->getHeader( $display_header, $title );
+				$footer = ($display_footer) ? $this->getFooter( $display_footer ) : '';
+				$header = ($display_header) ? $this->getHeader( $display_header ) : '';
 
-				// prevents an unnecessary dive into Mpdf class
-				if ( $display_footer ) {
-					$this->mpdf->SetFooter( $footer );
-				}
-				if ( $display_header ) {
-					$this->mpdf->SetHeader( $header );
-				}
+				$this->mpdf->SetFooter( $footer );
+				$this->mpdf->SetHeader( $header );
 
 				/****************************************
 					Do the thing
