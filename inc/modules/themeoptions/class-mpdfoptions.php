@@ -188,38 +188,38 @@ class MPDFOptions extends Pressbooks\Options {
 			]
 		);
 
-		add_settings_field(
-			'mpdf_indent_paragraphs',
-			__( 'Indent paragraphs', 'pressbooks' ),
-			[ $this, 'renderIndentParagraphsField' ],
-			$_page,
-			$_section,
-			[
-				 __( 'Indent paragraphs', 'pressbooks' )
-			]
-		);
-
-		add_settings_field(
-			'mpdf_hyphens',
-			__( 'Hyphens', 'pressbooks' ),
-			[ $this, 'renderHyphensField' ],
-			$_page,
-			$_section,
-			[
-				 __( 'Enable hyphenation', 'pressbooks' )
-			]
-		);
-
-		add_settings_field(
-			'mpdf_fontsize',
-			__( 'Increase Font Size', 'pressbooks' ),
-			[ $this, 'renderFontSizeField' ],
-			$_page,
-			$_section,
-			[
-				__( 'Increases font size and line height for greater accessibility', 'pressbooks' )
-			]
-		);
+//		add_settings_field(
+//			'mpdf_indent_paragraphs',
+//			__( 'Indent paragraphs', 'pressbooks' ),
+//			[ $this, 'renderIndentParagraphsField' ],
+//			$_page,
+//			$_section,
+//			[
+//				 __( 'Indent paragraphs', 'pressbooks' )
+//			]
+//		);
+//
+//		add_settings_field(
+//			'mpdf_hyphens',
+//			__( 'Hyphens', 'pressbooks' ),
+//			[ $this, 'renderHyphensField' ],
+//			$_page,
+//			$_section,
+//			[
+//				 __( 'Enable hyphenation', 'pressbooks' )
+//			]
+//		);
+//
+//		add_settings_field(
+//			'mpdf_fontsize',
+//			__( 'Increase Font Size', 'pressbooks' ),
+//			[ $this, 'renderFontSizeField' ],
+//			$_page,
+//			$_section,
+//			[
+//				__( 'Increases font size and line height for greater accessibility', 'pressbooks' )
+//			]
+//		);
 
 		/**
 		 * Add custom settings fields.

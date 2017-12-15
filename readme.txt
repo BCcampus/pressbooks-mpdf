@@ -13,11 +13,9 @@ Pressbooks mPDF
 
 == Description ==
 
-[mPDF](http://www.mpdf1.com/mpdf/index.php) is an open source PHP class that generates PDF files from HTML.
-mPDF is also released under a GPLv2 license and made by people other than the authors of this plugin.
+[mPDF](https://github.com/mpdf/mpdf) is an open source PHP class that generates PDF files from HTML.
 
-The mPDF class is large and not a development focus for pressbooks.com. Where the mPDF class has previously been a part of the [pressbooks](https://wordpress.org/plugins/pressbooks), it has now been removed.
-Installing this plugin will restore the previous functionality that open source users have come to expect if the license fee for [PrinceXML](http://www.princexml.com/) is a barrier.
+This plugin is an open source alternative for PDF generation if the license fee for [PrinceXML](http://www.princexml.com/) is a barrier for users of Pressbooks.
 
 [Pressbooks](https://wordpress.org/plugins/pressbooks/) is a requirement in order for this plugin to do anything useful.
 
@@ -28,6 +26,11 @@ IMPORTANT!
 You must first install [Pressbooks](https://github.com/pressbooks/pressbooks). This plugin won't work without it.
 The Pressbooks github repository is updated frequently. [Stay up to date](https://github.com/pressbooks/pressbooks/tree/master).
 
+= What is mPDF?
+
+[mPDF](https://mpdf.github.io/: A PHP library to generate PDF files from HTML with Unicode/UTF-8 and CJK support
+
+It is based on FPDF and HTML2FPDF with a number of enhancements.
 
 = Using Git =
 
@@ -46,14 +49,21 @@ The Pressbooks github repository is updated frequently. [Stay up to date](https:
 1. Upload `pressbooks-mpdf` to the `/wp-content/plugins/` directory
 2. Activate the plugin at the network level, through the 'Plugins' menu in WordPress
 
+== Screenshots ==
+
+1. The mPDF options of the PDF export.
+2. Select the PDF (mPDF) format for exporting your book as PDF.
+
 == Changelog ==
 
 See: https://github.com/BCcampus/pressbooks-mpdf/commits/master for more detail
 
-= 3.0.0 (2017/12/11) =
+= 3.0.0 (2017/12/15) =
 * Compatibility with Pressbooks 4.5.0
 * Requires PHP 7+ and WP 4.9.1
 * Updated mpdf to v7.0.2
+* Theme parity (export style matches theme)
+* Uses XHTML file as data source (same as PrinceXML)
 
 = 2.0.0 =
 * Compatibility with Pressbooks 4.0.0
