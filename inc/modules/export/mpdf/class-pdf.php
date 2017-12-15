@@ -226,7 +226,7 @@ class Pdf extends Prince\Pdf {
 			'defaultfooterfontstyle' => 'I',
 			'shrink_tables_to_fit' => 1,
 			'use_kwt'              => true,
-//			'debug'                => true,
+		//          'debug'                => true,
 		];
 
 		// user config overrides defaults
