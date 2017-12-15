@@ -222,6 +222,8 @@ class Pdf extends Prince\Pdf {
 			'ignore_invalid_utf8'  => true,
 			'defaultfooterline'    => 0,
 			'defaultheaderline'    => 0,
+			'defaultheaderfontstyle' => 'I',
+			'defaultfooterfontstyle' => 'I',
 			'shrink_tables_to_fit' => 1,
 			'use_kwt'              => true,
 //			'debug'                => true,
@@ -343,7 +345,7 @@ class Pdf extends Prince\Pdf {
 						break;
 
 					case 'chap':
-						$display_header = false;
+						$display_header = true;
 						$display_footer = true;
 						$page_options   = [ 'suppress' => 'off', 'pagenumstyle' => '1' ];
 						$toc_level      = 1;
@@ -502,7 +504,7 @@ class Pdf extends Prince\Pdf {
 			return '';
 		}
 
-		$content = ( empty( $content ) ) ? ' | | ' : $content;
+		$content = ( empty( $content ) ) ? ' | | ' . $this->bookTitle . '' : $content;
 
 		// override
 		$header = apply_filters( 'mpdf_get_header', $content );
