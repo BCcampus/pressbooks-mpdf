@@ -5,4 +5,7 @@ vendor/*
 !vendor/composer
 !vendor/mpdf
 !vendor/setasign
+!vendor/paragonie
+!vendor/psr
+
 
