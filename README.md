@@ -21,7 +21,7 @@ The Pressbooks github repository is updated frequently. [Stay up to date](https:
 
 ### What is mPDF?
 
-[mPDF](https://mpdf.github.io/: A PHP library to generate PDF files from HTML with Unicode/UTF-8 and CJK support
+[mPDF](https://mpdf.github.io/): A PHP library to generate PDF files from HTML with Unicode/UTF-8 and CJK support
 
 It is based on FPDF and HTML2FPDF with a number of enhancements.
 
@@ -29,7 +29,7 @@ It is based on FPDF and HTML2FPDF with a number of enhancements.
 ### Using Git 
 
 1. cd /wp-content/plugins
-2. git clone https://github.com/BCcampus/pressbooks-mpdf.git
+2. `git clone https://github.com/BCcampus/pressbooks-mpdf.git`
 3. Activate the plugin at the network level, through the 'Plugins' menu in WordPress
 
 
