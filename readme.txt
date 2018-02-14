@@ -26,12 +26,6 @@ IMPORTANT!
 You must first install [Pressbooks](https://github.com/pressbooks/pressbooks). This plugin won't work without it.
 The Pressbooks github repository is updated frequently. [Stay up to date](https://github.com/pressbooks/pressbooks/tree/master).
 
-= What is mPDF?
-
-[mPDF](https://mpdf.github.io/: A PHP library to generate PDF files from HTML with Unicode/UTF-8 and CJK support
-
-It is based on FPDF and HTML2FPDF with a number of enhancements.
-
 = Using Git =
 
 1. cd /wp-content/plugins
@@ -48,6 +42,16 @@ It is based on FPDF and HTML2FPDF with a number of enhancements.
 
 1. Upload `pressbooks-mpdf` to the `/wp-content/plugins/` directory
 2. Activate the plugin at the network level, through the 'Plugins' menu in WordPress
+
+== FAQ ==
+
+= What is mPDF?
+
+[mPDF](https://mpdf.github.io/: A PHP library to generate PDF files from HTML with Unicode/UTF-8 and CJK support
+
+It is based on FPDF and HTML2FPDF with a number of enhancements.
+
+
 
 == Screenshots ==
 

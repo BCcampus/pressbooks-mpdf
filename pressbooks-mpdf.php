@@ -1,6 +1,6 @@
 <?php
 /**
- * @author    Brad Payne <brad@bradpayne.ca>
+ * @author    Brad Payne
  * @license   GPLv2
  * @copyright Brad Payne
  *
@@ -8,6 +8,7 @@
  * Description:  Open source PDF generation for Pressbooks via the mPDF library.
  * Version: 3.0.0
  * Author: Brad Payne
+ * Author URI: https://github.com/bdolor
  * Original Author: BookOven Inc.
  * License: GPLv2
  * Text Domain: pressbooks-mpdf
