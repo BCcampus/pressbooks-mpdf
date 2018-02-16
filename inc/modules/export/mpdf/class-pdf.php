@@ -247,7 +247,7 @@ class Pdf extends Prince\Pdf {
 	 */
 	protected function setDocumentMeta() {
 		( isset( $this->bookMeta['pb_title'] ) ) ? $this->mpdf->SetTitle( $this->bookMeta['pb_title'] ) : '';
-		( isset( $this->bookMeta['pb_author'] ) ) ? $this->mpdf->SetAuthor( $this->bookMeta['pb_author'] ) : '';
+		( isset( $this->bookMeta['pb_authors'] ) ) ? $this->mpdf->SetAuthor( $this->bookMeta['pb_authors'] ) : '';
 		( isset( $this->bookMeta['pb_publisher'] ) ) ? $this->mpdf->SetCreator( $this->bookMeta['pb_publisher'] ) : '';
 		( isset( $this->bookMeta['pb_primary_subject'] ) ) ? $this->mpdf->SetSubject( $this->bookMeta['pb_primary_subject'] ) : '';
 		( isset( $this->bookMeta['pb_keywords_tags'] ) ) ? $this->mpdf->SetKeywords( $this->bookMeta['pb_keywords_tags'] ) : '';
