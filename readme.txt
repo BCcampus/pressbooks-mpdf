@@ -1,4 +1,4 @@
-=== Pressbooks mPDF ===
+=== mPDF for Pressbooks ===
 Contributors: bdolor, greatislander
 Donation link: https://github.com/BCcampus/pressbooks-mpdf
 Tags: pressbooks, textbook, mPDF
@@ -9,7 +9,7 @@ Requires PHP: 7.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Pressbooks mPDF
+mPDF for Pressbooks
 
 == Description ==
 
@@ -35,7 +35,7 @@ The Pressbooks github repository is updated frequently. [Stay up to date](https:
 = OR, go to the WordPress Dashboard =
 
 1. Navigate to the Network Admin -> Plugins
-2. Search for 'Pressbooks mPDF'
+2. Search for 'mPDF for Pressbooks'
 3. Click 'Network Activate'
 
 = OR, upload manually =
@@ -65,6 +65,7 @@ See: https://github.com/BCcampus/pressbooks-mpdf/commits/master for more detail
 = 3.1.0 (2018/02/15) =
 * compatibility with PB5
 * updating to mPDF v7.0.3
+* name change
 
 = 3.0.0 (2017/12/15) =
 * Compatibility with Pressbooks 4.5.0

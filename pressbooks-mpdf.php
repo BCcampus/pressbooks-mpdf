@@ -4,7 +4,7 @@
  * @license   GPLv2
  * @copyright Brad Payne
  *
- * Plugin Name: Pressbooks mPDF
+ * Plugin Name: mPDF for Pressbooks
  * Description:  Open source PDF generation for Pressbooks via the mPDF library.
  * Version: 3.1.0
  * Author: Brad Payne
@@ -43,9 +43,9 @@ add_action( 'init', function () {
 		} );
 
 		return;
-	} elseif ( ! version_compare( PB_PLUGIN_VERSION, '4.5', '>=' ) ) {
+	} elseif ( ! version_compare( PB_PLUGIN_VERSION, '5.0.0-beta', '>=' ) ) {
 		add_action( 'admin_notices', function () {
-			echo '<div id="message" class="error fade"><p>' . __( 'PB mPDF requires Pressbooks 4.5.0 or greater.', 'pressbooks-mpdf' ) . '</p></div>';
+			echo '<div id="message" class="error fade"><p>' . __( 'PB mPDF requires Pressbooks 5.0.0 or greater.', 'pressbooks-mpdf' ) . '</p></div>';
 		} );
 
 		return;

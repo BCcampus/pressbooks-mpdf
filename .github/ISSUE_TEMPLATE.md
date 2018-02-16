@@ -16,6 +16,6 @@
 
 ### System Information
 
-- Pressbooks mPDF: [Enter PBmPDF Version here] 
+- mPDF for Pressbooks: [Enter PBmPDF Version here] 
 - Pressbooks: [Enter PB Version number here] 
 - WordPress: [Enter WP Version number here] 
