@@ -597,7 +597,8 @@ class Pdf extends Prince\Pdf {
 			$filtered = preg_replace( '/page-break-(before|after|inside)\:(\s?)(right|auto|left|always|inherit);/i', 'page-break-$1: avoid;', $css );
 
 			// mpdf has its own class for toc
-			$filtered = preg_replace( '/#toc\s?/iU', '.mpdf_toc ', $filtered );
+			// 2018/02/23 - removing this, prince pdf options interfere ex. 'display:none'
+			//$filtered = preg_replace( '/#toc\s?/iU', '.mpdf_toc ', $filtered );
 
 			// reference to page selectors force unwanted page breaks
 			$filtered = preg_replace( '/page\:\s?(.*);/iU', '', $filtered );
