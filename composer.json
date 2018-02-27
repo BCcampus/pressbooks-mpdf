@@ -2,7 +2,7 @@
   "name": "bccampus/pressbooks-mpdf",
   "description": "Open source PDF generation for Pressbooks via the mPDF library.",
   "type": "wordpress-plugin",
-  "version": "3.1.0-rc.1",
+  "version": "3.1.0",
   "homepage": "https://github.com/bccampus/pressbooks-mpdf",
   "license": "GPL-2.0+",
   "authors": [
