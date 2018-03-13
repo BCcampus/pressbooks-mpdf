@@ -15,7 +15,7 @@
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  * Network: True
  * Tags: pressbooks, OER, publishing, PDF, export
- * Pressbooks tested up to: 5.0.0
+ * Pressbooks tested up to: 5.1.0
  */
 /**
  *
