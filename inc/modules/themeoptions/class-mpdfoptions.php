@@ -73,152 +73,152 @@ class MPDFOptions extends Pressbooks\Options {
 
 		add_settings_field(
 			'mpdf_page_size',
-			__( 'Page Size', 'pressbooks' ),
+			__( 'Page Size', 'pressbooks-mpdf' ),
 			[ $this, 'renderPageSizeField' ],
 			$_page,
 			$_section,
 			[
-				'A0'        => __( 'A0', 'pressbooks' ),
-				'A1'        => __( 'A1', 'pressbooks' ),
-				'A2'        => __( 'A2', 'pressbooks' ),
-				'A3'        => __( 'A3', 'pressbooks' ),
-				'A4'        => __( 'A4', 'pressbooks' ),
-				'A5'        => __( 'A5', 'pressbooks' ),
-				'A6'        => __( 'A6', 'pressbooks' ),
-				'A7'        => __( 'A7', 'pressbooks' ),
-				'A8'        => __( 'A8', 'pressbooks' ),
-				'A9'        => __( 'A9', 'pressbooks' ),
-				'A10'       => __( 'A10', 'pressbooks' ),
-				'B0'        => __( 'B0', 'pressbooks' ),
-				'B1'        => __( 'B1', 'pressbooks' ),
-				'B2'        => __( 'B2', 'pressbooks' ),
-				'B3'        => __( 'B3', 'pressbooks' ),
-				'B4'        => __( 'B4', 'pressbooks' ),
-				'B5'        => __( 'B5', 'pressbooks' ),
-				'B6'        => __( 'B6', 'pressbooks' ),
-				'B7'        => __( 'B7', 'pressbooks' ),
-				'B8'        => __( 'B8', 'pressbooks' ),
-				'B9'        => __( 'B9', 'pressbooks' ),
-				'B10'       => __( 'B10', 'pressbooks' ),
-				'C0'        => __( 'C0', 'pressbooks' ),
-				'C1'        => __( 'C1', 'pressbooks' ),
-				'C2'        => __( 'C2', 'pressbooks' ),
-				'C3'        => __( 'C3', 'pressbooks' ),
-				'C4'        => __( 'C4', 'pressbooks' ),
-				'C5'        => __( 'C5', 'pressbooks' ),
-				'C6'        => __( 'C6', 'pressbooks' ),
-				'C7'        => __( 'C7', 'pressbooks' ),
-				'C8'        => __( 'C8', 'pressbooks' ),
-				'C9'        => __( 'C9', 'pressbooks' ),
-				'C10'       => __( 'C10', 'pressbooks' ),
-				'4A0'       => __( '4A0', 'pressbooks' ),
-				'2A0'       => __( '2A0', 'pressbooks' ),
-				'RA0'       => __( 'RA0', 'pressbooks' ),
-				'RA1'       => __( 'RA1', 'pressbooks' ),
-				'RA2'       => __( 'RA2', 'pressbooks' ),
-				'RA3'       => __( 'RA3', 'pressbooks' ),
-				'RA4'       => __( 'RA4', 'pressbooks' ),
-				'SRA0'      => __( 'SRA0', 'pressbooks' ),
-				'SRA1'      => __( 'SRA1', 'pressbooks' ),
-				'SRA2'      => __( 'SRA2', 'pressbooks' ),
-				'SRA3'      => __( 'SRA3', 'pressbooks' ),
-				'SRA4'      => __( 'SRA4', 'pressbooks' ),
-				'Letter'    => __( 'Letter', 'pressbooks' ),
-				'Legal'     => __( 'Legal', 'pressbooks' ),
-				'Executive' => __( 'Executive', 'pressbooks' ),
-				'Folio'     => __( 'Folio', 'pressbooks' ),
-				'Demy'      => __( 'Demy', 'pressbooks' ),
-				'Royal'     => __( 'Royal', 'pressbooks' ),
-				'A'         => __( 'Type A paperback 111x178mm', 'pressbooks' ),
-				'B'         => __( 'Type B paperback 128x198mm', 'pressbooks' ),
+				'A0'        => __( 'A0', 'pressbooks-mpdf' ),
+				'A1'        => __( 'A1', 'pressbooks-mpdf' ),
+				'A2'        => __( 'A2', 'pressbooks-mpdf' ),
+				'A3'        => __( 'A3', 'pressbooks-mpdf' ),
+				'A4'        => __( 'A4', 'pressbooks-mpdf' ),
+				'A5'        => __( 'A5', 'pressbooks-mpdf' ),
+				'A6'        => __( 'A6', 'pressbooks-mpdf' ),
+				'A7'        => __( 'A7', 'pressbooks-mpdf' ),
+				'A8'        => __( 'A8', 'pressbooks-mpdf' ),
+				'A9'        => __( 'A9', 'pressbooks-mpdf' ),
+				'A10'       => __( 'A10', 'pressbooks-mpdf' ),
+				'B0'        => __( 'B0', 'pressbooks-mpdf' ),
+				'B1'        => __( 'B1', 'pressbooks-mpdf' ),
+				'B2'        => __( 'B2', 'pressbooks-mpdf' ),
+				'B3'        => __( 'B3', 'pressbooks-mpdf' ),
+				'B4'        => __( 'B4', 'pressbooks-mpdf' ),
+				'B5'        => __( 'B5', 'pressbooks-mpdf' ),
+				'B6'        => __( 'B6', 'pressbooks-mpdf' ),
+				'B7'        => __( 'B7', 'pressbooks-mpdf' ),
+				'B8'        => __( 'B8', 'pressbooks-mpdf' ),
+				'B9'        => __( 'B9', 'pressbooks-mpdf' ),
+				'B10'       => __( 'B10', 'pressbooks-mpdf' ),
+				'C0'        => __( 'C0', 'pressbooks-mpdf' ),
+				'C1'        => __( 'C1', 'pressbooks-mpdf' ),
+				'C2'        => __( 'C2', 'pressbooks-mpdf' ),
+				'C3'        => __( 'C3', 'pressbooks-mpdf' ),
+				'C4'        => __( 'C4', 'pressbooks-mpdf' ),
+				'C5'        => __( 'C5', 'pressbooks-mpdf' ),
+				'C6'        => __( 'C6', 'pressbooks-mpdf' ),
+				'C7'        => __( 'C7', 'pressbooks-mpdf' ),
+				'C8'        => __( 'C8', 'pressbooks-mpdf' ),
+				'C9'        => __( 'C9', 'pressbooks-mpdf' ),
+				'C10'       => __( 'C10', 'pressbooks-mpdf' ),
+				'4A0'       => __( '4A0', 'pressbooks-mpdf' ),
+				'2A0'       => __( '2A0', 'pressbooks-mpdf' ),
+				'RA0'       => __( 'RA0', 'pressbooks-mpdf' ),
+				'RA1'       => __( 'RA1', 'pressbooks-mpdf' ),
+				'RA2'       => __( 'RA2', 'pressbooks-mpdf' ),
+				'RA3'       => __( 'RA3', 'pressbooks-mpdf' ),
+				'RA4'       => __( 'RA4', 'pressbooks-mpdf' ),
+				'SRA0'      => __( 'SRA0', 'pressbooks-mpdf' ),
+				'SRA1'      => __( 'SRA1', 'pressbooks-mpdf' ),
+				'SRA2'      => __( 'SRA2', 'pressbooks-mpdf' ),
+				'SRA3'      => __( 'SRA3', 'pressbooks-mpdf' ),
+				'SRA4'      => __( 'SRA4', 'pressbooks-mpdf' ),
+				'Letter'    => __( 'Letter', 'pressbooks-mpdf' ),
+				'Legal'     => __( 'Legal', 'pressbooks-mpdf' ),
+				'Executive' => __( 'Executive', 'pressbooks-mpdf' ),
+				'Folio'     => __( 'Folio', 'pressbooks-mpdf' ),
+				'Demy'      => __( 'Demy', 'pressbooks-mpdf' ),
+				'Royal'     => __( 'Royal', 'pressbooks-mpdf' ),
+				'A'         => __( 'Type A paperback 111x178mm', 'pressbooks-mpdf' ),
+				'B'         => __( 'Type B paperback 128x198mm', 'pressbooks-mpdf' ),
 			]
 		);
 
 		add_settings_field(
 			'mpdf_margin_left',
-			__( 'Left margin', 'pressbooks' ),
+			__( 'Left margin', 'pressbooks-mpdf' ),
 			[ $this, 'renderLeftMarginField' ],
 			$_page,
 			$_section,
 			[
-				__( 'Left Margin (in millimetres)', 'pressbooks' ),
+				__( 'Left Margin (in millimetres)', 'pressbooks-mpdf' ),
 			]
 		);
 
 		add_settings_field(
 			'mpdf_margin_right',
-			__( 'Right margin', 'pressbooks' ),
+			__( 'Right margin', 'pressbooks-mpdf' ),
 			[ $this, 'renderRightMarginField' ],
 			$_page,
 			$_section,
 			[
-				__( ' Right margin (in milimeters)', 'pressbooks' ),
+				__( ' Right margin (in milimeters)', 'pressbooks-mpdf' ),
 			]
 		);
 
 		add_settings_field(
 			'mpdf_mirror_margins',
-			__( 'Mirror Margins', 'pressbooks' ),
+			__( 'Mirror Margins', 'pressbooks-mpdf' ),
 			[ $this, 'renderMirrorMarginsField' ],
 			$_page,
 			$_section,
 			[
-				__( 'The document will mirror the left and right margin values on odd and even pages (i.e. they become inner and outer margins)', 'pressbooks' ),
+				__( 'The document will mirror the left and right margin values on odd and even pages (i.e. they become inner and outer margins)', 'pressbooks-mpdf' ),
 			]
 		);
 
 		add_settings_field(
 			'mpdf_include_cover',
-			__( 'Cover Image', 'pressbooks' ),
+			__( 'Cover Image', 'pressbooks-mpdf' ),
 			[ $this, 'renderCoverImageField' ],
 			$_page,
 			$_section,
 			[
-				__( 'Display cover image', 'pressbooks' ),
+				__( 'Display cover image', 'pressbooks-mpdf' ),
 			]
 		);
 
 		add_settings_field(
 			'mpdf_include_toc',
-			__( 'Table of Contents', 'pressbooks' ),
+			__( 'Table of Contents', 'pressbooks-mpdf' ),
 			[ $this, 'renderTOCField' ],
 			$_page,
 			$_section,
 			[
-				__( 'Display table of contents', 'pressbooks' ),
+				__( 'Display table of contents', 'pressbooks-mpdf' ),
 			]
 		);
 
 		//      add_settings_field(
 		//          'mpdf_indent_paragraphs',
-		//          __( 'Indent paragraphs', 'pressbooks' ),
+		//          __( 'Indent paragraphs', 'pressbooks-mpdf' ),
 		//          [ $this, 'renderIndentParagraphsField' ],
 		//          $_page,
 		//          $_section,
 		//          [
-		//               __( 'Indent paragraphs', 'pressbooks' )
+		//               __( 'Indent paragraphs', 'pressbooks-mpdf' )
 		//          ]
 		//      );
 		//
 		//      add_settings_field(
 		//          'mpdf_hyphens',
-		//          __( 'Hyphens', 'pressbooks' ),
+		//          __( 'Hyphens', 'pressbooks-mpdf' ),
 		//          [ $this, 'renderHyphensField' ],
 		//          $_page,
 		//          $_section,
 		//          [
-		//               __( 'Enable hyphenation', 'pressbooks' )
+		//               __( 'Enable hyphenation', 'pressbooks-mpdf' )
 		//          ]
 		//      );
 		//
 		//      add_settings_field(
 		//          'mpdf_fontsize',
-		//          __( 'Increase Font Size', 'pressbooks' ),
+		//          __( 'Increase Font Size', 'pressbooks-mpdf' ),
 		//          [ $this, 'renderFontSizeField' ],
 		//          $_page,
 		//          $_section,
 		//          [
-		//              __( 'Increases font size and line height for greater accessibility', 'pressbooks' )
+		//              __( 'Increases font size and line height for greater accessibility', 'pressbooks-mpdf' )
 		//          ]
 		//      );
 
@@ -240,7 +240,7 @@ class MPDFOptions extends Pressbooks\Options {
 	 * Display the mPDF options tab description.
 	 */
 	function display() {
-		echo '<p>' . __( 'These options apply to mPDF exports.', 'pressbooks' ) . '</p>';
+		echo '<p>' . __( 'These options apply to mPDF exports.', 'pressbooks-mpdf' ) . '</p>';
 	}
 
 	/**
@@ -425,7 +425,7 @@ class MPDFOptions extends Pressbooks\Options {
 	 * @return string $title
 	 */
 	static function getTitle() {
-		return __( 'mPDF Options', 'pressbooks' );
+		return __( 'mPDF Options', 'pressbooks-mpdf' );
 	}
 
 	/**
