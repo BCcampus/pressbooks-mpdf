@@ -3,6 +3,7 @@
  * @author  Pressbooks <code@pressbooks.com>
  * @license GPLv2 (or any later version)
  */
+
 namespace BCcampus\Modules\ThemeOptions;
 
 use Pressbooks;
@@ -18,31 +19,31 @@ class MPDFOptions extends Pressbooks\Options {
 	const VERSION = 0;
 
 	/**
-	* PDF theme options.
-	*
-	* @var array
-	*/
+	 * PDF theme options.
+	 *
+	 * @var array
+	 */
 	public $options;
 
 	/**
-	* PDF theme defaults.
-	*
-	* @var array
-	*/
+	 * PDF theme defaults.
+	 *
+	 * @var array
+	 */
 	public $defaults;
 
 	/**
-	* Constructor.
-	*
-	* @param array $options
-	*/
+	 * Constructor.
+	 *
+	 * @param array $options
+	 */
 	function __construct( array $options ) {
-		$this->options = $options;
-		$this->defaults = $this->getDefaults();
-		$this->booleans = $this->getBooleanOptions();
-		$this->strings = $this->getStringOptions();
-		$this->integers = $this->getIntegerOptions();
-		$this->floats = $this->getFloatOptions();
+		$this->options    = $options;
+		$this->defaults   = $this->getDefaults();
+		$this->booleans   = $this->getBooleanOptions();
+		$this->strings    = $this->getStringOptions();
+		$this->integers   = $this->getIntegerOptions();
+		$this->floats     = $this->getFloatOptions();
 		$this->predefined = $this->getPredefinedOptions();
 
 		foreach ( $this->defaults as $key => $value ) {
@@ -56,7 +57,7 @@ class MPDFOptions extends Pressbooks\Options {
 	 * Configure the mPDF options tab using the settings API.
 	 */
 	function init() {
-		$_page = $_option = 'pressbooks_theme_options_' . $this->getSlug();
+		$_page    = $_option = 'pressbooks_theme_options_' . $this->getSlug();
 		$_section = $this->getSlug() . '_options_section';
 
 		if ( false === get_option( $_option ) ) {
@@ -77,59 +78,59 @@ class MPDFOptions extends Pressbooks\Options {
 			$_page,
 			$_section,
 			[
-				'A0' => __( 'A0', 'pressbooks' ),
-				'A1' => __( 'A1', 'pressbooks' ),
-				'A2' => __( 'A2', 'pressbooks' ),
-				'A3' => __( 'A3', 'pressbooks' ),
-				'A4' => __( 'A4', 'pressbooks' ),
-				'A5' => __( 'A5', 'pressbooks' ),
-				'A6' => __( 'A6', 'pressbooks' ),
-				'A7' => __( 'A7', 'pressbooks' ),
-				'A8' => __( 'A8', 'pressbooks' ),
-				'A9' => __( 'A9', 'pressbooks' ),
-				'A10' => __( 'A10', 'pressbooks' ),
-				'B0' => __( 'B0', 'pressbooks' ),
-				'B1' => __( 'B1', 'pressbooks' ),
-				'B2' => __( 'B2', 'pressbooks' ),
-				'B3' => __( 'B3', 'pressbooks' ),
-				'B4' => __( 'B4', 'pressbooks' ),
-				'B5' => __( 'B5', 'pressbooks' ),
-				'B6' => __( 'B6', 'pressbooks' ),
-				'B7' => __( 'B7', 'pressbooks' ),
-				'B8' => __( 'B8', 'pressbooks' ),
-				'B9' => __( 'B9', 'pressbooks' ),
-				'B10' => __( 'B10', 'pressbooks' ),
-				'C0' => __( 'C0', 'pressbooks' ),
-				'C1' => __( 'C1', 'pressbooks' ),
-				'C2' => __( 'C2', 'pressbooks' ),
-				'C3' => __( 'C3', 'pressbooks' ),
-				'C4' => __( 'C4', 'pressbooks' ),
-				'C5' => __( 'C5', 'pressbooks' ),
-				'C6' => __( 'C6', 'pressbooks' ),
-				'C7' => __( 'C7', 'pressbooks' ),
-				'C8' => __( 'C8', 'pressbooks' ),
-				'C9' => __( 'C9', 'pressbooks' ),
-				'C10' => __( 'C10', 'pressbooks' ),
-				'4A0' => __( '4A0', 'pressbooks' ),
-				'2A0' => __( '2A0', 'pressbooks' ),
-				'RA0' => __( 'RA0', 'pressbooks' ),
-				'RA1' => __( 'RA1', 'pressbooks' ),
-				'RA2' => __( 'RA2', 'pressbooks' ),
-				'RA3' => __( 'RA3', 'pressbooks' ),
-				'RA4' => __( 'RA4', 'pressbooks' ),
-				'SRA0' => __( 'SRA0', 'pressbooks' ),
-				'SRA1' => __( 'SRA1', 'pressbooks' ),
-				'SRA2' => __( 'SRA2', 'pressbooks' ),
-				'SRA3' => __( 'SRA3', 'pressbooks' ),
-				'SRA4' => __( 'SRA4', 'pressbooks' ),
-				'Letter' => __( 'Letter', 'pressbooks' ),
-				'Legal' => __( 'Legal' , 'pressbooks' ),
-				'Executive' => __( 'Executive' , 'pressbooks' ),
-				'Folio' => __( 'Folio' , 'pressbooks' ),
-				'Demy' => __( 'Demy' , 'pressbooks' ),
-				'Royal' => __( 'Royal' , 'pressbooks' ),
-				'A' => __( 'Type A paperback 111x178mm' , 'pressbooks' ),
-				'B' => __( 'Type B paperback 128x198mm' , 'pressbooks' ),
+				'A0'        => __( 'A0', 'pressbooks' ),
+				'A1'        => __( 'A1', 'pressbooks' ),
+				'A2'        => __( 'A2', 'pressbooks' ),
+				'A3'        => __( 'A3', 'pressbooks' ),
+				'A4'        => __( 'A4', 'pressbooks' ),
+				'A5'        => __( 'A5', 'pressbooks' ),
+				'A6'        => __( 'A6', 'pressbooks' ),
+				'A7'        => __( 'A7', 'pressbooks' ),
+				'A8'        => __( 'A8', 'pressbooks' ),
+				'A9'        => __( 'A9', 'pressbooks' ),
+				'A10'       => __( 'A10', 'pressbooks' ),
+				'B0'        => __( 'B0', 'pressbooks' ),
+				'B1'        => __( 'B1', 'pressbooks' ),
+				'B2'        => __( 'B2', 'pressbooks' ),
+				'B3'        => __( 'B3', 'pressbooks' ),
+				'B4'        => __( 'B4', 'pressbooks' ),
+				'B5'        => __( 'B5', 'pressbooks' ),
+				'B6'        => __( 'B6', 'pressbooks' ),
+				'B7'        => __( 'B7', 'pressbooks' ),
+				'B8'        => __( 'B8', 'pressbooks' ),
+				'B9'        => __( 'B9', 'pressbooks' ),
+				'B10'       => __( 'B10', 'pressbooks' ),
+				'C0'        => __( 'C0', 'pressbooks' ),
+				'C1'        => __( 'C1', 'pressbooks' ),
+				'C2'        => __( 'C2', 'pressbooks' ),
+				'C3'        => __( 'C3', 'pressbooks' ),
+				'C4'        => __( 'C4', 'pressbooks' ),
+				'C5'        => __( 'C5', 'pressbooks' ),
+				'C6'        => __( 'C6', 'pressbooks' ),
+				'C7'        => __( 'C7', 'pressbooks' ),
+				'C8'        => __( 'C8', 'pressbooks' ),
+				'C9'        => __( 'C9', 'pressbooks' ),
+				'C10'       => __( 'C10', 'pressbooks' ),
+				'4A0'       => __( '4A0', 'pressbooks' ),
+				'2A0'       => __( '2A0', 'pressbooks' ),
+				'RA0'       => __( 'RA0', 'pressbooks' ),
+				'RA1'       => __( 'RA1', 'pressbooks' ),
+				'RA2'       => __( 'RA2', 'pressbooks' ),
+				'RA3'       => __( 'RA3', 'pressbooks' ),
+				'RA4'       => __( 'RA4', 'pressbooks' ),
+				'SRA0'      => __( 'SRA0', 'pressbooks' ),
+				'SRA1'      => __( 'SRA1', 'pressbooks' ),
+				'SRA2'      => __( 'SRA2', 'pressbooks' ),
+				'SRA3'      => __( 'SRA3', 'pressbooks' ),
+				'SRA4'      => __( 'SRA4', 'pressbooks' ),
+				'Letter'    => __( 'Letter', 'pressbooks' ),
+				'Legal'     => __( 'Legal', 'pressbooks' ),
+				'Executive' => __( 'Executive', 'pressbooks' ),
+				'Folio'     => __( 'Folio', 'pressbooks' ),
+				'Demy'      => __( 'Demy', 'pressbooks' ),
+				'Royal'     => __( 'Royal', 'pressbooks' ),
+				'A'         => __( 'Type A paperback 111x178mm', 'pressbooks' ),
+				'B'         => __( 'Type B paperback 128x198mm', 'pressbooks' ),
 			]
 		);
 
@@ -140,7 +141,7 @@ class MPDFOptions extends Pressbooks\Options {
 			$_page,
 			$_section,
 			[
-				__( 'Left Margin (in millimetres)', 'pressbooks' )
+				__( 'Left Margin (in millimetres)', 'pressbooks' ),
 			]
 		);
 
@@ -151,7 +152,7 @@ class MPDFOptions extends Pressbooks\Options {
 			$_page,
 			$_section,
 			[
-				__( ' Right margin (in milimeters)', 'pressbooks' )
+				__( ' Right margin (in milimeters)', 'pressbooks' ),
 			]
 		);
 
@@ -162,7 +163,7 @@ class MPDFOptions extends Pressbooks\Options {
 			$_page,
 			$_section,
 			[
-				 __( 'The document will mirror the left and right margin values on odd and even pages (i.e. they become inner and outer margins)', 'pressbooks' )
+				__( 'The document will mirror the left and right margin values on odd and even pages (i.e. they become inner and outer margins)', 'pressbooks' ),
 			]
 		);
 
@@ -173,7 +174,7 @@ class MPDFOptions extends Pressbooks\Options {
 			$_page,
 			$_section,
 			[
-				 __( 'Display cover image', 'pressbooks' )
+				__( 'Display cover image', 'pressbooks' ),
 			]
 		);
 
@@ -184,7 +185,7 @@ class MPDFOptions extends Pressbooks\Options {
 			$_page,
 			$_section,
 			[
-				 __( 'Display table of contents', 'pressbooks' )
+				__( 'Display table of contents', 'pressbooks' ),
 			]
 		);
 
@@ -245,139 +246,168 @@ class MPDFOptions extends Pressbooks\Options {
 	/**
 	 * Render the mPDF options tab form (NOT USED).
 	 */
-	function render() {}
+	function render() {
+	}
 
 	/**
 	 * Upgrade handler for mPDF options (none at present).
 	 *
 	 * @param int $version
 	 */
-	function upgrade( $version ) {}
+	function upgrade( $version ) {
+	}
 
 	/**
 	 * Render the mpdf_page_size input.
+	 *
 	 * @param array $args
 	 */
 	function renderPageSizeField( $args ) {
-		$this->renderSelect( [
-			'id' => 'mpdf_page_size',
-			'name' => 'pressbooks_theme_options_' . $this->getSlug(),
-			'option' => 'mpdf_page_size',
-			'value' => $this->options['mpdf_page_size'],
-			'choices' => $args,
-		] );
+		$this->renderSelect(
+			[
+				'id'      => 'mpdf_page_size',
+				'name'    => 'pressbooks_theme_options_' . $this->getSlug(),
+				'option'  => 'mpdf_page_size',
+				'value'   => $this->options['mpdf_page_size'],
+				'choices' => $args,
+			]
+		);
 	}
 
 	/**
 	 * Render the mpdf_margin_left input.
+	 *
 	 * @param array $args
 	 */
 	function renderLeftMarginField( $args ) {
-		$this->renderField( [
-			'id' => 'mpdf_margin_left',
-			'name' => 'pressbooks_theme_options_' . $this->getSlug(),
-			'option' => 'mpdf_margin_left',
-			'value' => $this->options['mpdf_margin_left'],
-			'description' => $args[0],
-		] );
+		$this->renderField(
+			[
+				'id'          => 'mpdf_margin_left',
+				'name'        => 'pressbooks_theme_options_' . $this->getSlug(),
+				'option'      => 'mpdf_margin_left',
+				'value'       => $this->options['mpdf_margin_left'],
+				'description' => $args[0],
+			]
+		);
 	}
 
 	/**
 	 * Render the mpdf_margin_right input.
+	 *
 	 * @param array $args
 	 */
 	function renderRightMarginField( $args ) {
-		$this->renderField( [
-			'id' => 'mpdf_margin_right',
-			'name' => 'pressbooks_theme_options_' . $this->getSlug(),
-			'option' => 'mpdf_margin_right',
-			'value' => $this->options['mpdf_margin_right'],
-			'description' => $args[0],
-		] );
+		$this->renderField(
+			[
+				'id'          => 'mpdf_margin_right',
+				'name'        => 'pressbooks_theme_options_' . $this->getSlug(),
+				'option'      => 'mpdf_margin_right',
+				'value'       => $this->options['mpdf_margin_right'],
+				'description' => $args[0],
+			]
+		);
 	}
 
 	/**
 	 * Render the mpdf_mirror_margins checkbox.
+	 *
 	 * @param array $args
 	 */
 	function renderMirrorMarginsField( $args ) {
-		$this->renderCheckbox( [
-				'id' => 'mpdf_mirror_margins',
-				'name' => 'pressbooks_theme_options_' . $this->getSlug(),
+		$this->renderCheckbox(
+			[
+				'id'     => 'mpdf_mirror_margins',
+				'name'   => 'pressbooks_theme_options_' . $this->getSlug(),
 				'option' => 'mpdf_mirror_margins',
-				'value' => $this->options['mpdf_mirror_margins'],
-				'label' => $args[0],
-		] );
+				'value'  => $this->options['mpdf_mirror_margins'],
+				'label'  => $args[0],
+			]
+		);
 	}
 
 	/**
 	 * Render the mpdf_include_cover checkbox.
+	 *
 	 * @param array $args
 	 */
 	function renderCoverImageField( $args ) {
-		$this->renderCheckbox( [
-			'id' => 'mpdf_include_cover',
-			'name' => 'pressbooks_theme_options_' . $this->getSlug(),
-			'option' => 'mpdf_include_cover',
-			'value' => $this->options['mpdf_include_cover'],
-			'label' => $args[0],
-		] );
+		$this->renderCheckbox(
+			[
+				'id'     => 'mpdf_include_cover',
+				'name'   => 'pressbooks_theme_options_' . $this->getSlug(),
+				'option' => 'mpdf_include_cover',
+				'value'  => $this->options['mpdf_include_cover'],
+				'label'  => $args[0],
+			]
+		);
 	}
 
 	/**
 	 * Render the mpdf_include_toc checkbox.
+	 *
 	 * @param array $args
 	 */
 	function renderTOCField( $args ) {
-		$this->renderCheckbox( [
-			'id' => 'mpdf_include_toc',
-			'name' => 'pressbooks_theme_options_' . $this->getSlug(),
-			'option' => 'mpdf_include_toc',
-			'value' => $this->options['mpdf_include_toc'],
-			'label' => $args[0],
-		] );
+		$this->renderCheckbox(
+			[
+				'id'     => 'mpdf_include_toc',
+				'name'   => 'pressbooks_theme_options_' . $this->getSlug(),
+				'option' => 'mpdf_include_toc',
+				'value'  => $this->options['mpdf_include_toc'],
+				'label'  => $args[0],
+			]
+		);
 	}
 
 	/**
 	 * Render the mpdf_indent_paragraphs checkbox.
+	 *
 	 * @param array $args
 	 */
 	function renderIndentParagraphsField( $args ) {
-		$this->renderCheckbox( [
-			'id' => 'mpdf_indent_paragraphs',
-			'name' => 'pressbooks_theme_options_' . $this->getSlug(),
-			'option' => 'mpdf_indent_paragraphs',
-			'value' => $this->options['mpdf_indent_paragraphs'],
-			'label' => $args[0],
-		] );
+		$this->renderCheckbox(
+			[
+				'id'     => 'mpdf_indent_paragraphs',
+				'name'   => 'pressbooks_theme_options_' . $this->getSlug(),
+				'option' => 'mpdf_indent_paragraphs',
+				'value'  => $this->options['mpdf_indent_paragraphs'],
+				'label'  => $args[0],
+			]
+		);
 	}
 
 	/**
 	 * Render the mpdf_hyphens checkbox.
+	 *
 	 * @param array $args
 	 */
 	function renderHyphensField( $args ) {
-		$this->renderCheckbox( [
-			'id' => 'mpdf_hyphens',
-			'name' => 'pressbooks_theme_options_' . $this->getSlug(),
-			'option' => 'mpdf_hyphens',
-			'value' => $this->options['mpdf_hyphens'],
-			'label' => $args[0],
-		] );
+		$this->renderCheckbox(
+			[
+				'id'     => 'mpdf_hyphens',
+				'name'   => 'pressbooks_theme_options_' . $this->getSlug(),
+				'option' => 'mpdf_hyphens',
+				'value'  => $this->options['mpdf_hyphens'],
+				'label'  => $args[0],
+			]
+		);
 	}
 
 	/**
 	 * Render the mpdf_fontsize checkbox.
+	 *
 	 * @param array $args
 	 */
 	function renderFontSizeField( $args ) {
-		$this->renderCheckbox( [
-			'id' => 'mpdf_fontsize',
-			'name' => 'pressbooks_theme_options_' . $this->getSlug(),
-			'option' => 'mpdf_fontsize',
-			'value' => $this->options['mpdf_fontsize'],
-			'label' => $args[0],
-		] );
+		$this->renderCheckbox(
+			[
+				'id'     => 'mpdf_fontsize',
+				'name'   => 'pressbooks_theme_options_' . $this->getSlug(),
+				'option' => 'mpdf_fontsize',
+				'value'  => $this->options['mpdf_fontsize'],
+				'label'  => $args[0],
+			]
+		);
 	}
 
 	/**
@@ -407,23 +437,26 @@ class MPDFOptions extends Pressbooks\Options {
 		/**
 		 * @since 1.6.2 TODO
 		 */
-		return apply_filters( 'pb_theme_options_mpdf_defaults', [
-			'mpdf_page_size' => 'Letter',
-			'mpdf_include_cover' => 1,
-			'mpdf_indent_paragraphs' => 0,
-			'mpdf_include_toc' => 1,
-			'mpdf_mirror_margins' => 1,
-			'mpdf_margin_left' => 15,
-			'mpdf_margin_right' => 30,
-			'mpdf_hyphens' => 0,
-			'mpdf_fontsize' => 0,
-		] );
+		return apply_filters(
+			'pb_theme_options_mpdf_defaults', [
+				'mpdf_page_size'         => 'Letter',
+				'mpdf_include_cover'     => 1,
+				'mpdf_indent_paragraphs' => 0,
+				'mpdf_include_toc'       => 1,
+				'mpdf_mirror_margins'    => 1,
+				'mpdf_margin_left'       => 15,
+				'mpdf_margin_right'      => 30,
+				'mpdf_hyphens'           => 0,
+				'mpdf_fontsize'          => 0,
+			]
+		);
 	}
 
 	/**
 	 * Filter the array of default values for the mPDF options tab.
 	 *
 	 * @param array $defaults
+	 *
 	 * @return array $defaults
 	 */
 	static function filterDefaults( $defaults ) {
@@ -441,14 +474,16 @@ class MPDFOptions extends Pressbooks\Options {
 		 *
 		 * @since 1.6.2
 		 */
-		return apply_filters( 'pb_theme_options_mpdf_booleans', [
-			'mpdf_mirror_margins',
-			'mpdf_include_cover',
-			'mpdf_include_toc',
-			'mpdf_indent_paragraphs',
-			'mpdf_hyphens',
-			'mpdf_fontsize',
-		] );
+		return apply_filters(
+			'pb_theme_options_mpdf_booleans', [
+				'mpdf_mirror_margins',
+				'mpdf_include_cover',
+				'mpdf_include_toc',
+				'mpdf_indent_paragraphs',
+				'mpdf_hyphens',
+				'mpdf_fontsize',
+			]
+		);
 	}
 
 	/**
@@ -476,10 +511,12 @@ class MPDFOptions extends Pressbooks\Options {
 		 *
 		 * @since 1.6.2
 		 */
-		return apply_filters( 'pb_theme_options_mpdf_integers', [
-			'mpdf_left_margin',
-			'mpdf_right_margin',
-		] );
+		return apply_filters(
+			'pb_theme_options_mpdf_integers', [
+				'mpdf_left_margin',
+				'mpdf_right_margin',
+			]
+		);
 	}
 
 	/**
@@ -507,9 +544,11 @@ class MPDFOptions extends Pressbooks\Options {
 		 *
 		 * @since 1.6.2
 		 */
-		return apply_filters( 'pb_theme_options_mpdf_predefined', [
-			'mpdf_page_size'
-		] );
+		return apply_filters(
+			'pb_theme_options_mpdf_predefined', [
+				'mpdf_page_size',
+			]
+		);
 	}
 
 }

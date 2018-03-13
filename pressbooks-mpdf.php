@@ -14,6 +14,8 @@
  * Text Domain: pressbooks-mpdf
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  * Network: True
+ * Tags: pressbooks, OER, publishing, PDF, export
+ * Pressbooks tested up to: 5.0.0
  */
 /**
  *
@@ -39,7 +41,7 @@ add_action( 'init', function () {
 	// Must meet minimum requirements
 	if ( ! @include_once( WP_PLUGIN_DIR . '/pressbooks/compatibility.php' ) ) { // @codingStandardsIgnoreLine
 		add_action( 'admin_notices', function () {
-			echo '<div id="message" class="error fade"><p>' . __( 'PB mPDF cannot find a Pressbooks install.', 'pressbooks-mpdf' ) . '</p></div>';
+			echo '<div id="message" class="error fade"><p>' . __( 'mPDF for Pressbooks cannot find a Pressbooks install.', 'pressbooks-mpdf' ) . '</p></div>';
 		} );
 
 		return;
@@ -51,7 +53,7 @@ add_action( 'init', function () {
 		return;
 	} elseif ( ! function_exists( 'mb_regex_encoding' ) || ! function_exists( 'gd_info' ) ) {
 		add_action( 'admin_notices', function () {
-			echo '<div id="message" class="error fade"><p>' . __( 'PB mPDF requires the PHP extensions "mbstring" and "gd"', 'pressbooks-mpdf' ) . '</p></div>';
+			echo '<div id="message" class="error fade"><p>' . __( 'mPDF for Pressbooks requires the PHP extensions "mbstring" and "gd"', 'pressbooks-mpdf' ) . '</p></div>';
 		} );
 
 		return;
