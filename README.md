@@ -1,4 +1,4 @@
-# Pressbooks mPDF
+# mPDF for Pressbooks
 
 Open source PDF generation for [Pressbooks](https://github.com/pressbooks/pressbooks) via the [mPDF](https://github.com/mpdf/mpdf) library.
 
@@ -36,7 +36,7 @@ It is based on FPDF and HTML2FPDF with a number of enhancements.
 ### OR, go to the WordPress Dashboard 
 
 1. Navigate to the Network Admin -> Plugins
-2. Search for 'Pressbooks mPDF'
+2. Search for 'mPDF for Pressbooks'
 3. Click 'Network Activate'
 
 

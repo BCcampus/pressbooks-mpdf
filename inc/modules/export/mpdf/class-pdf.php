@@ -127,7 +127,11 @@ class Pdf extends Prince\Pdf {
 		$md5       = $this->nonce( $timestamp );
 		$this->url = home_url() . "/format/xhtml?timestamp={$timestamp}&hashkey={$md5}";
 		if ( ! empty( $_REQUEST['preview'] ) ) {
-			$this->url .= '&' . http_build_query( [ 'preview' => $_REQUEST['preview'] ] );
+			$this->url .= '&' . http_build_query(
+				[
+					'preview' => $_REQUEST['preview'],
+				]
+			);
 		}
 	}
 
@@ -202,31 +206,31 @@ class Pdf extends Prince\Pdf {
 
 		// cherry picked
 		$config = [
-			'mode'                 => 's',
-			'format'               => 'Letter',
-			'default_font_size'    => 0,
-			'default_font'         => '',
-			'margin_left'          => 15,
-			'margin_right'         => 15,
-			'margin_top'           => 16,
-			'margin_bottom'        => 16,
-			'margin_header'        => 9,
-			'margin_footer'        => 9,
-			'orientation'          => 'P',
-			'enableImports'        => false,
-			'anchor2Bookmark'      => 1,
-			'mirrorMargins'        => 1,
-			'tempDir'              => _MPDF_TEMP_PATH,
-			'defaultCssFile'       => $css_file,
-			'autoLangToFont'       => true,
-			'ignore_invalid_utf8'  => true,
-			'defaultfooterline'    => 0,
-			'defaultheaderline'    => 0,
+			'mode'                   => 's',
+			'format'                 => 'Letter',
+			'default_font_size'      => 0,
+			'default_font'           => '',
+			'margin_left'            => 15,
+			'margin_right'           => 15,
+			'margin_top'             => 16,
+			'margin_bottom'          => 16,
+			'margin_header'          => 9,
+			'margin_footer'          => 9,
+			'orientation'            => 'P',
+			'enableImports'          => false,
+			'anchor2Bookmark'        => 1,
+			'mirrorMargins'          => 1,
+			'tempDir'                => _MPDF_TEMP_PATH,
+			'defaultCssFile'         => $css_file,
+			'autoLangToFont'         => true,
+			'ignore_invalid_utf8'    => true,
+			'defaultfooterline'      => 0,
+			'defaultheaderline'      => 0,
 			'defaultheaderfontstyle' => 'I',
 			'defaultfooterfontstyle' => 'I',
-			'shrink_tables_to_fit' => 1,
-			'use_kwt'              => true,
-		//          'debug'                => true,
+			'shrink_tables_to_fit'   => 1,
+			'use_kwt'                => true,
+			//          'debug'                => true,
 		];
 
 		// user config overrides defaults
@@ -247,7 +251,7 @@ class Pdf extends Prince\Pdf {
 	 */
 	protected function setDocumentMeta() {
 		( isset( $this->bookMeta['pb_title'] ) ) ? $this->mpdf->SetTitle( $this->bookMeta['pb_title'] ) : '';
-		( isset( $this->bookMeta['pb_author'] ) ) ? $this->mpdf->SetAuthor( $this->bookMeta['pb_author'] ) : '';
+		( isset( $this->bookMeta['pb_authors'] ) ) ? $this->mpdf->SetAuthor( $this->bookMeta['pb_authors'] ) : '';
 		( isset( $this->bookMeta['pb_publisher'] ) ) ? $this->mpdf->SetCreator( $this->bookMeta['pb_publisher'] ) : '';
 		( isset( $this->bookMeta['pb_primary_subject'] ) ) ? $this->mpdf->SetSubject( $this->bookMeta['pb_primary_subject'] ) : '';
 		( isset( $this->bookMeta['pb_keywords_tags'] ) ) ? $this->mpdf->SetKeywords( $this->bookMeta['pb_keywords_tags'] ) : '';
@@ -336,7 +340,10 @@ class Pdf extends Prince\Pdf {
 					case 'fron':
 						$display_header = false;
 						$display_footer = true;
-						$page_options   = [ 'suppress' => 'off', 'pagenumstyle' => 'i' ];
+						$page_options   = [
+							'suppress' => 'off',
+							'pagenumstyle' => 'i',
+						];
 						$toc_level      = 0;
 						$element        = 'h1';
 						$class          = 'front-matter-title';
@@ -347,7 +354,10 @@ class Pdf extends Prince\Pdf {
 					case 'chap':
 						$display_header = true;
 						$display_footer = true;
-						$page_options   = [ 'suppress' => 'off', 'pagenumstyle' => '1' ];
+						$page_options   = [
+							'suppress' => 'off',
+							'pagenumstyle' => '1',
+						];
 						$toc_level      = 1;
 						$element        = 'h2';
 						$class          = 'chapter-title';
@@ -358,7 +368,10 @@ class Pdf extends Prince\Pdf {
 					case 'part':
 						$display_header = false;
 						$display_footer = true;
-						$page_options   = [ 'suppress' => 'on', 'pagenumstyle' => '1' ];
+						$page_options   = [
+							'suppress' => 'on',
+							'pagenumstyle' => '1',
+						];
 						$toc_level      = 0;
 						$element        = 'h1';
 						$class          = 'part-title';
@@ -369,7 +382,10 @@ class Pdf extends Prince\Pdf {
 					case 'back':
 						$display_header = false;
 						$display_footer = true;
-						$page_options   = [ 'suppress' => 'off', 'pagenumstyle' => '1' ];
+						$page_options   = [
+							'suppress' => 'off',
+							'pagenumstyle' => '1',
+						];
 						$toc_level      = 0;
 						$element        = 'h1';
 						$class          = 'back-matter-title';
@@ -403,7 +419,7 @@ class Pdf extends Prince\Pdf {
 				 *****************************************/
 				if ( $add_to_toc && 1 === $this->options['mpdf_include_toc'] ) {
 					$this->mpdf->TOC_Entry( $this->getTocEntry( $title ), $toc_level );
-					$this->mpdf->Bookmark( $this->getBookmarkEntry( $title ), $toc_level );
+					$this->mpdf->Bookmark( $this->getBookmarkEntry( $title, $class ), $toc_level );
 				}
 
 				/****************************************
@@ -453,10 +469,19 @@ class Pdf extends Prince\Pdf {
 	 *
 	 * @return string
 	 */
-	function getBookmarkEntry( $title ) {
-		static $id = 1;
-		$entry = $id . ' ' . $title;
-		$id ++;
+	function getBookmarkEntry( $title, $class ) {
+		static $part_id = 1;
+		static $chap_id = 1;
+
+		if ( 'part-title' == $class ) {
+			$entry = $part_id . '. ' . $title;
+			$part_id ++;
+		} elseif ( 'chapter-title' == $class ) {
+			$entry = $chap_id . '. ' . $title;
+			$chap_id ++;
+		} else {
+			$entry = $title;
+		}
 
 		return $entry;
 	}
@@ -532,6 +557,9 @@ class Pdf extends Prince\Pdf {
 
 			foreach ( $headings as $heading ) {
 				$title = ( $class === $heading->getAttribute( 'class' ) ) ? $heading->nodeValue : '';
+				if ( $title ) {
+					break;
+				}
 			}
 		}
 
@@ -597,7 +625,8 @@ class Pdf extends Prince\Pdf {
 			$filtered = preg_replace( '/page-break-(before|after|inside)\:(\s?)(right|auto|left|always|inherit);/i', 'page-break-$1: avoid;', $css );
 
 			// mpdf has its own class for toc
-			$filtered = preg_replace( '/#toc\s?/iU', '.mpdf_toc ', $filtered );
+			// 2018/02/23 - removing this, prince pdf options interfere ex. 'display:none'
+			//$filtered = preg_replace( '/#toc\s?/iU', '.mpdf_toc ', $filtered );
 
 			// reference to page selectors force unwanted page breaks
 			$filtered = preg_replace( '/page\:\s?(.*);/iU', '', $filtered );

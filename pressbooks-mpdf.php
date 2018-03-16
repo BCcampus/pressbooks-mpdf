@@ -1,18 +1,21 @@
 <?php
 /**
- * @author    Brad Payne <brad@bradpayne.ca>
+ * @author    Brad Payne
  * @license   GPLv2
  * @copyright Brad Payne
  *
- * Plugin Name: Pressbooks mPDF
+ * Plugin Name: mPDF for Pressbooks
  * Description:  Open source PDF generation for Pressbooks via the mPDF library.
- * Version: 3.0.0
+ * Version: 3.1.1
  * Author: Brad Payne
+ * Author URI: https://github.com/bdolor
  * Original Author: BookOven Inc.
  * License: GPLv2
  * Text Domain: pressbooks-mpdf
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  * Network: True
+ * Tags: pressbooks, OER, publishing, PDF, export
+ * Pressbooks tested up to: 5.1.0
  */
 /**
  *
@@ -38,19 +41,19 @@ add_action( 'init', function () {
 	// Must meet minimum requirements
 	if ( ! @include_once( WP_PLUGIN_DIR . '/pressbooks/compatibility.php' ) ) { // @codingStandardsIgnoreLine
 		add_action( 'admin_notices', function () {
-			echo '<div id="message" class="error fade"><p>' . __( 'PB mPDF cannot find a Pressbooks install.', 'pressbooks-mpdf' ) . '</p></div>';
+			echo '<div id="message" class="error fade"><p>' . __( 'mPDF for Pressbooks cannot find a Pressbooks install.', 'pressbooks-mpdf' ) . '</p></div>';
 		} );
 
 		return;
-	} elseif ( ! version_compare( PB_PLUGIN_VERSION, '4.5', '>=' ) ) {
+	} elseif ( ! version_compare( PB_PLUGIN_VERSION, '5.0.0', '>=' ) ) {
 		add_action( 'admin_notices', function () {
-			echo '<div id="message" class="error fade"><p>' . __( 'PB mPDF requires Pressbooks 4.5.0 or greater.', 'pressbooks-mpdf' ) . '</p></div>';
+			echo '<div id="message" class="error fade"><p>' . __( 'mPDF for Pressbooks requires Pressbooks 5.0.0 or greater.', 'pressbooks-mpdf' ) . '</p></div>';
 		} );
 
 		return;
 	} elseif ( ! function_exists( 'mb_regex_encoding' ) || ! function_exists( 'gd_info' ) ) {
 		add_action( 'admin_notices', function () {
-			echo '<div id="message" class="error fade"><p>' . __( 'PB mPDF requires the PHP extensions "mbstring" and "gd"', 'pressbooks-mpdf' ) . '</p></div>';
+			echo '<div id="message" class="error fade"><p>' . __( 'mPDF for Pressbooks requires the PHP extensions "mbstring" and "gd"', 'pressbooks-mpdf' ) . '</p></div>';
 		} );
 
 		return;
