@@ -2,9 +2,9 @@
 Contributors: bdolor, greatislander
 Donation link: https://github.com/BCcampus/pressbooks-mpdf
 Tags: pressbooks, textbook, mPDF
-Requires at least: 4.9.4
-Tested up to: 4.9.4
-Stable tag: 3.1.1
+Requires at least: 4.9.5
+Tested up to: 4.9.6
+Stable tag: 3.1.2
 Requires PHP: 7.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -60,6 +60,9 @@ It is based on FPDF and HTML2FPDF with a number of enhancements.
 == Changelog ==
 
 See: https://github.com/BCcampus/pressbooks-mpdf/commits/master for more detail
+
+= 3.1.2 (2018/05/22) =
+* updating to mPDF v7.1.0
 
 = 3.1.1 (2018/03/13) =
 * fix for Table of Contents missing titles (props @beckej13820 for reporting)
