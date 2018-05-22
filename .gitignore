@@ -7,5 +7,7 @@ vendor/*
 !vendor/setasign
 !vendor/paragonie
 !vendor/psr
+!vendor/myclabs
+
 
 

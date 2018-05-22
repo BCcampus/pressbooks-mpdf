@@ -7,6 +7,7 @@ namespace Composer\Autoload;
 class ComposerStaticInitfa709a25a903b8fdebd1fd1fe304058d
 {
     public static $files = array (
+        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
     );
 
@@ -19,6 +20,10 @@ class ComposerStaticInitfa709a25a903b8fdebd1fd1fe304058d
         array (
             'Mpdf\\' => 5,
         ),
+        'D' => 
+        array (
+            'DeepCopy\\' => 9,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -29,6 +34,10 @@ class ComposerStaticInitfa709a25a903b8fdebd1fd1fe304058d
         'Mpdf\\' => 
         array (
             0 => __DIR__ . '/..' . '/mpdf/mpdf/src',
+        ),
+        'DeepCopy\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
         ),
     );
 
