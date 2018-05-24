@@ -63,6 +63,8 @@ See: https://github.com/BCcampus/pressbooks-mpdf/commits/master for more detail
 
 = 3.1.2 (2018/05/22) =
 * updating to mPDF v7.1.0
+* added paper size information (props @colomet for the suggestion)
+* fixed image centering for .aligncenter css class (props @gotomary for reporting)
 
 = 3.1.1 (2018/03/13) =
 * fix for Table of Contents missing titles (props @beckej13820 for reporting)
