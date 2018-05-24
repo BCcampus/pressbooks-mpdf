@@ -639,7 +639,7 @@ class Pdf extends Prince\Pdf {
 
 		}
 
-		$mpdf_css = 'div.mpdf_toc_level_0{line-height:1.5;margin-left:0;padding-right:0}div.mpdf_toc_level_1{margin-left:2em;text-indent:-2em;padding-right:0}div.mpdf_toc_level_2{margin-left:4em;text-indent:-2em;padding-right:0}';
+		$mpdf_css = '.aligncenter{margin: 0 auto;}div.mpdf_toc_level_0{line-height:1.5;margin-left:0;padding-right:0}div.mpdf_toc_level_1{margin-left:2em;text-indent:-2em;padding-right:0}div.mpdf_toc_level_2{margin-left:4em;text-indent:-2em;padding-right:0}';
 
 		return $mpdf_css . $filtered;
 
