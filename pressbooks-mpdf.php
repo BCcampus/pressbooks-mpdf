@@ -6,7 +6,7 @@
  *
  * Plugin Name: mPDF for Pressbooks
  * Description:  Open source PDF generation for Pressbooks via the mPDF library.
- * Version: 3.1.2
+ * Version: 3.1.3
  * Author: Brad Payne
  * Author URI: https://github.com/bdolor
  * Original Author: BookOven Inc.
@@ -15,7 +15,7 @@
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  * Network: True
  * Tags: pressbooks, OER, publishing, PDF, export
- * Pressbooks tested up to: 5.3.0
+ * Pressbooks tested up to: 5.3.3
  */
 /**
  *
@@ -71,7 +71,10 @@ add_action( 'init', function () {
 		define( '_MPDF_TTFONTDATAPATH', $ttffontdata_path );
 
 		require_once __DIR__ . '/autoloader.php';
-		require_once __DIR__ . '/vendor/autoload.php';
+		// Load Composer Dependencies
+		if ( file_exists( $composer = __DIR__ . '/vendor/autoload.php' ) ) {
+			require_once( $composer );
+		}
 		require_once __DIR__ . '/hooks-admin.php';
 	}
 } );
