@@ -1,4 +1,5 @@
 # mPDF for Pressbooks
+[![Build Status](https://travis-ci.com/BCcampus/pressbooks-mpdf.svg?branch=dev)](https://travis-ci.com/BCcampus/pressbooks-mpdf)
 
 Open source PDF generation for [Pressbooks](https://github.com/pressbooks/pressbooks) via the [mPDF](https://github.com/mpdf/mpdf) library.
 

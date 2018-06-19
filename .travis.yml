@@ -26,7 +26,7 @@ install:
 before_script:
 - if [[ ${TRAVIS_PHP_VERSION:0:3} != "7.1" ]] && php -v | grep -q 'Xdebug'; then phpenv
   config-rm xdebug.ini; fi
-- bash bin/install-wp-tests.sh pbt_test root '' localhost $WP_VERSION
+- bash bin/install-wp-tests.sh mpdf_test root '' localhost $WP_VERSION
 script:
 - vendor/bin/phpunit --configuration phpunit.xml
 before_deploy:
