@@ -15,7 +15,13 @@
       "homepage": "https://github.com/greatislander"
     }
   ],
+  "config": {
+    "platform": {
+      "php": "7.0.30"
+    }
+  },
   "require": {
+    "php": ">=7.0",
     "mpdf/mpdf": "^7.1.0"
   },
   "require-dev": {
@@ -27,7 +33,7 @@
       "@standards"
     ],
     "standards": [
-      "vendor/bin/phpcs --standard=phpcs.ruleset.xml ."
+      "vendor/bin/phpcs --standard=phpcs.ruleset.xml *.php inc/"
     ]
   }
 }

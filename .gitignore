@@ -1,13 +1,7 @@
-.idea
-!vendor
-vendor/*
-!vendor/autoload.php
-!vendor/composer
-!vendor/mpdf
-!vendor/setasign
-!vendor/paragonie
-!vendor/psr
-!vendor/myclabs
+.idea/
+.DS_Store
+.svn
+vendor
 
 
 
