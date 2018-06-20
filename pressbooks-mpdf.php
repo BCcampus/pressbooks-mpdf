@@ -71,8 +71,10 @@ add_action( 'init', function () {
 		define( '_MPDF_TTFONTDATAPATH', $ttffontdata_path );
 
 		require_once __DIR__ . '/autoloader.php';
+
 		// Load Composer Dependencies
-		if ( file_exists( $composer = __DIR__ . '/vendor/autoload.php' ) ) {
+		$composer = __DIR__ . '/vendor/autoload.php';
+		if ( file_exists( $composer ) ) {
 			require_once( $composer );
 		}
 		require_once __DIR__ . '/hooks-admin.php';

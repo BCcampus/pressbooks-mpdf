@@ -130,10 +130,10 @@ class Pdf extends Prince\Pdf {
 		$this->url = home_url() . "/format/xhtml?timestamp={$timestamp}&hashkey={$md5}";
 		if ( ! empty( $_REQUEST['preview'] ) ) {
 			$this->url .= '&' . http_build_query(
-					[
-						'preview' => $_REQUEST['preview'],
-					]
-				);
+				[
+					'preview' => $_REQUEST['preview'],
+				]
+			);
 		}
 	}
 
@@ -148,7 +148,7 @@ class Pdf extends Prince\Pdf {
 		$this->outputPath = $filename;
 		$args             = [];
 		if ( defined( 'WP_ENV' ) && WP_ENV === 'development' ) {
-			$args['sslverify'] = FALSE;
+			$args['sslverify'] = false;
 		}
 		$contents = wp_remote_get( $this->url, $args );
 		if ( ! is_wp_error( $contents ) ) {
@@ -156,10 +156,10 @@ class Pdf extends Prince\Pdf {
 		} else {
 			\error_log( 'BCcampus\Modules\Export\Mpdf\convert failed to get remote url' . $contents->get_error_message() );
 
-			return FALSE;
+			return false;
 		}
 		$doc                     = ( class_exists( HTML5::class ) ) ? new HTML5() : new \DOMDocument();
-		$doc->preserveWhiteSpace = FALSE;
+		$doc->preserveWhiteSpace = false;
 		$dom                     = $doc->loadHTML( $contents );
 
 		$config = $this->setConfigVariables();
@@ -170,7 +170,7 @@ class Pdf extends Prince\Pdf {
 
 			// @see https://mpdf.github.io/reference/mpdf-functions/overview.html
 			$this->mpdf->SetBasePath( home_url( '/' ) );
-			$this->mpdf->SetCompression( TRUE );
+			$this->mpdf->SetCompression( true );
 
 			// iterate over the xhtml domdocument
 			$this->iterator( $dom );
@@ -194,7 +194,7 @@ class Pdf extends Prince\Pdf {
 			error_log( $e->getMessage() );
 		}
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -231,20 +231,20 @@ class Pdf extends Prince\Pdf {
 			'margin_header'          => 9,
 			'margin_footer'          => 9,
 			'orientation'            => 'P',
-			'enableImports'          => FALSE,
+			'enableImports'          => false,
 			'anchor2Bookmark'        => 1,
 			'mirrorMargins'          => 1,
 			'tempDir'                => _MPDF_TEMP_PATH,
 			'defaultCssFile'         => $css_file,
-			'autoLangToFont'         => TRUE,
-			'ignore_invalid_utf8'    => TRUE,
+			'autoLangToFont'         => true,
+			'ignore_invalid_utf8'    => true,
 			'defaultfooterline'      => 0,
 			'defaultheaderline'      => 0,
 			'defaultheaderfontstyle' => 'I',
 			'defaultfooterfontstyle' => 'I',
 			'shrink_tables_to_fit'   => 1,
-			'use_kwt'                => TRUE,
-			//          'debug'                => true,
+			'use_kwt'                => true,
+			//'debug'                => true,
 		];
 
 		// user config overrides defaults
@@ -284,8 +284,8 @@ class Pdf extends Prince\Pdf {
 	function addToc() {
 
 		$options = [
-			'paging'           => TRUE,
-			'links'            => TRUE,
+			'paging'           => true,
+			'links'            => true,
 			'tocindent'        => 1,
 			'suppress'         => 'on',
 			'toc_bookmarkText' => 'Contents',
@@ -353,8 +353,8 @@ class Pdf extends Prince\Pdf {
 				switch ( $context_class ) {
 
 					case 'fron':
-						$display_header = FALSE;
-						$display_footer = TRUE;
+						$display_header = false;
+						$display_footer = true;
 						$page_options   = [
 							'suppress'     => 'off',
 							'pagenumstyle' => 'i',
@@ -363,12 +363,12 @@ class Pdf extends Prince\Pdf {
 						$element        = 'h1';
 						$class          = 'front-matter-title';
 						$title          = $this->getNodeValue( $page, $element, $class );
-						$add_to_toc     = TRUE;
+						$add_to_toc     = true;
 						break;
 
 					case 'chap':
-						$display_header = TRUE;
-						$display_footer = TRUE;
+						$display_header = true;
+						$display_footer = true;
 						$page_options   = [
 							'suppress'     => 'off',
 							'pagenumstyle' => '1',
@@ -377,12 +377,12 @@ class Pdf extends Prince\Pdf {
 						$element        = 'h2';
 						$class          = 'chapter-title';
 						$title          = $this->getNodeValue( $page, $element, $class );
-						$add_to_toc     = TRUE;
+						$add_to_toc     = true;
 						break;
 
 					case 'part':
-						$display_header = FALSE;
-						$display_footer = TRUE;
+						$display_header = false;
+						$display_footer = true;
 						$page_options   = [
 							'suppress'     => 'on',
 							'pagenumstyle' => '1',
@@ -391,12 +391,12 @@ class Pdf extends Prince\Pdf {
 						$element        = 'h1';
 						$class          = 'part-title';
 						$title          = $this->getNodeValue( $page, $element, $class );
-						$add_to_toc     = TRUE;
+						$add_to_toc     = true;
 						break;
 
 					case 'back':
-						$display_header = FALSE;
-						$display_footer = TRUE;
+						$display_header = false;
+						$display_footer = true;
 						$page_options   = [
 							'suppress'     => 'off',
 							'pagenumstyle' => '1',
@@ -405,12 +405,12 @@ class Pdf extends Prince\Pdf {
 						$element        = 'h1';
 						$class          = 'back-matter-title';
 						$title          = $this->getNodeValue( $page, $element, $class );
-						$add_to_toc     = TRUE;
+						$add_to_toc     = true;
 						break;
 
 					default:
-						$display_header = FALSE;
-						$display_footer = FALSE;
+						$display_header = false;
+						$display_footer = false;
 						$page_options   = [
 							'suppress'     => 'on',
 							'margin_left'  => 15,
@@ -420,7 +420,7 @@ class Pdf extends Prince\Pdf {
 						$element        = '';
 						$class          = '';
 						$title          = '';
-						$add_to_toc     = FALSE;
+						$add_to_toc     = false;
 
 				}
 
@@ -488,10 +488,10 @@ class Pdf extends Prince\Pdf {
 		static $part_id = 1;
 		static $chap_id = 1;
 
-		if ( 'part-title' == $class ) {
+		if ( 'part-title' === $class ) {
 			$entry = $part_id . '. ' . $title;
 			$part_id ++;
-		} elseif ( 'chapter-title' == $class ) {
+		} elseif ( 'chapter-title' === $class ) {
 			$entry = $chap_id . '. ' . $title;
 			$chap_id ++;
 		} else {
@@ -513,7 +513,7 @@ class Pdf extends Prince\Pdf {
 	function getFooter( bool $display, $content = '' ) {
 
 		// bail early
-		if ( FALSE === $display ) {
+		if ( false === $display ) {
 			return '';
 		}
 
@@ -540,7 +540,7 @@ class Pdf extends Prince\Pdf {
 	function getHeader( bool $display, $content = '' ) {
 
 		// bail early
-		if ( FALSE === $display ) {
+		if ( false === $display ) {
 			return '';
 		}
 
@@ -589,10 +589,10 @@ class Pdf extends Prince\Pdf {
 	function validate() {
 
 		if ( ! $this->isPdf( $this->outputPath ) ) {
-			return FALSE;
+			return false;
 		}
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -606,7 +606,7 @@ class Pdf extends Prince\Pdf {
 
 		$mime = static::mimeType( $file );
 
-		return ( strpos( $mime, 'application/pdf' ) !== FALSE );
+		return ( strpos( $mime, 'application/pdf' ) !== false );
 	}
 
 	/**
@@ -621,14 +621,14 @@ class Pdf extends Prince\Pdf {
 		foreach ( $chapters as $key => $val ) {
 			if ( is_array( $val ) ) {
 				if ( $this->atLeastOneExport( $val ) ) {
-					return TRUE;
+					return true;
 				}
 			} elseif ( 'export' === (string) $key && $val ) {
-				return TRUE;
+				return true;
 			}
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	private function filterCss( $css ) {

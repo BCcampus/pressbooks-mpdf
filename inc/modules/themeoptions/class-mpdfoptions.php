@@ -57,7 +57,8 @@ class MPDFOptions extends Pressbooks\Options {
 	 * Configure the mPDF options tab using the settings API.
 	 */
 	function init() {
-		$_page    = $_option = 'pressbooks_theme_options_' . $this->getSlug();
+		$_page    = 'pressbooks_theme_options_' . $this->getSlug();
+		$_option  = 'pressbooks_theme_options_' . $this->getSlug();
 		$_section = $this->getSlug() . '_options_section';
 
 		if ( false === get_option( $_option ) ) {
