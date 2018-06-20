@@ -30,7 +30,7 @@
 		$relative_class = \substr( $class, $len );
 		$last_ns_pos    = strripos( $relative_class, '\\' );
 
-		if ( FALSE !== ( $last_ns_pos ) ) {
+		if ( false !== ( $last_ns_pos ) ) {
 			$namespace = substr( $relative_class, 0, $last_ns_pos );
 			$class     = substr( $relative_class, $last_ns_pos + 1 );
 			$file      = str_replace( '\\', DIRECTORY_SEPARATOR, $namespace ) . DIRECTORY_SEPARATOR;
