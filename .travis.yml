@@ -48,4 +48,4 @@ deploy:
   on:
     tags: true
     repo: BCcampus/pressbooks-mpdf
-    brach: dev
+    branch: dev
