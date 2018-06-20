@@ -190,39 +190,6 @@ class MPDFOptions extends Pressbooks\Options {
 			]
 		);
 
-		//      add_settings_field(
-		//          'mpdf_indent_paragraphs',
-		//          __( 'Indent paragraphs', 'pressbooks-mpdf' ),
-		//          [ $this, 'renderIndentParagraphsField' ],
-		//          $_page,
-		//          $_section,
-		//          [
-		//               __( 'Indent paragraphs', 'pressbooks-mpdf' )
-		//          ]
-		//      );
-		//
-		//      add_settings_field(
-		//          'mpdf_hyphens',
-		//          __( 'Hyphens', 'pressbooks-mpdf' ),
-		//          [ $this, 'renderHyphensField' ],
-		//          $_page,
-		//          $_section,
-		//          [
-		//               __( 'Enable hyphenation', 'pressbooks-mpdf' )
-		//          ]
-		//      );
-		//
-		//      add_settings_field(
-		//          'mpdf_fontsize',
-		//          __( 'Increase Font Size', 'pressbooks-mpdf' ),
-		//          [ $this, 'renderFontSizeField' ],
-		//          $_page,
-		//          $_section,
-		//          [
-		//              __( 'Increases font size and line height for greater accessibility', 'pressbooks-mpdf' )
-		//          ]
-		//      );
-
 		/**
 		 * Add custom settings fields.
 		 *

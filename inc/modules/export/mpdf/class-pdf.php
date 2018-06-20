@@ -114,7 +114,7 @@ class Pdf extends Prince\Pdf {
 
 		// lives and dies with the instantiation of the object
 		if ( $memory_available < $this->memoryNeeded ) {
-			ini_set( 'memory_limit', $this->memoryNeeded . 'M' );
+			ini_set( 'memory_limit', $this->memoryNeeded . 'M' ); // @codingStandardsIgnoreLine
 		}
 
 		$this->options         = get_option( 'pressbooks_theme_options_mpdf' );
@@ -185,7 +185,7 @@ class Pdf extends Prince\Pdf {
 			 * * You should use WriteHTML() with smaller string lengths
 			 * works but mpdf headers and footer functionality is lost
 			 *****************************************/
-			//$this->mpdf->WriteHTML( $contents );
+			//$this->mpdf->WriteHTML( $contents ); // @codingStandardsIgnoreLine
 
 			// make the thing
 			$this->mpdf->Output( $this->outputPath, 'F' );
@@ -244,7 +244,7 @@ class Pdf extends Prince\Pdf {
 			'defaultfooterfontstyle' => 'I',
 			'shrink_tables_to_fit'   => 1,
 			'use_kwt'                => true,
-			//'debug'                => true,
+			//'debug'                => true, // @codingStandardsIgnoreLine
 		];
 
 		// user config overrides defaults
