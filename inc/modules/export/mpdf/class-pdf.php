@@ -79,6 +79,7 @@ class Pdf extends Prince\Pdf {
 
 	/**
 	 * Holds the title of the book being published
+	 *
 	 * @var string
 	 */
 	protected $bookTitle;
@@ -92,6 +93,7 @@ class Pdf extends Prince\Pdf {
 
 	/**
 	 * endpoint for xhtml page
+	 *
 	 * @var string
 	 */
 	public $url;
@@ -112,7 +114,7 @@ class Pdf extends Prince\Pdf {
 
 		// lives and dies with the instantiation of the object
 		if ( $memory_available < $this->memoryNeeded ) {
-			ini_set( 'memory_limit', $this->memoryNeeded . 'M' );
+			ini_set( 'memory_limit', $this->memoryNeeded . 'M' ); // @codingStandardsIgnoreLine
 		}
 
 		$this->options         = get_option( 'pressbooks_theme_options_mpdf' );
@@ -142,9 +144,20 @@ class Pdf extends Prince\Pdf {
 	 */
 	function convert() {
 
-		$filename                = $this->timestampedFileName( '._oss.pdf' );
-		$this->outputPath        = $filename;
-		$contents                = file_get_contents( $this->url );
+		$filename         = $this->timestampedFileName( '._oss.pdf' );
+		$this->outputPath = $filename;
+		$args             = [];
+		if ( defined( 'WP_ENV' ) && WP_ENV === 'development' ) {
+			$args['sslverify'] = false;
+		}
+		$contents = wp_remote_get( $this->url, $args );
+		if ( ! is_wp_error( $contents ) ) {
+			$contents = wp_remote_retrieve_body( $contents );
+		} else {
+			\error_log( 'BCcampus\Modules\Export\Mpdf\convert failed to get remote url' . $contents->get_error_message() );
+
+			return false;
+		}
 		$doc                     = ( class_exists( HTML5::class ) ) ? new HTML5() : new \DOMDocument();
 		$doc->preserveWhiteSpace = false;
 		$dom                     = $doc->loadHTML( $contents );
@@ -172,7 +185,7 @@ class Pdf extends Prince\Pdf {
 			 * * You should use WriteHTML() with smaller string lengths
 			 * works but mpdf headers and footer functionality is lost
 			 *****************************************/
-			//$this->mpdf->WriteHTML( $contents );
+			//$this->mpdf->WriteHTML( $contents ); // @codingStandardsIgnoreLine
 
 			// make the thing
 			$this->mpdf->Output( $this->outputPath, 'F' );
@@ -186,6 +199,7 @@ class Pdf extends Prince\Pdf {
 
 	/**
 	 * Give Mpdf all the things
+	 *
 	 * @see https://github.com/mpdf/mpdf/blob/development/src/Config/ConfigVariables.php
 	 *
 	 */
@@ -230,7 +244,7 @@ class Pdf extends Prince\Pdf {
 			'defaultfooterfontstyle' => 'I',
 			'shrink_tables_to_fit'   => 1,
 			'use_kwt'                => true,
-			//          'debug'                => true,
+			//'debug'                => true, // @codingStandardsIgnoreLine
 		];
 
 		// user config overrides defaults
@@ -246,6 +260,7 @@ class Pdf extends Prince\Pdf {
 
 	/**
 	 * Sets Available PDF Document Metadata
+	 *
 	 * @see https://mpdf.github.io/setting-pdf-file-properties/document-metadata.html
 	 *
 	 */
@@ -261,8 +276,8 @@ class Pdf extends Prince\Pdf {
 	/**
 	 * Add the mpdf Table of Contents.
 	 * Note, the functionality of the TOC is limited: its behavior varies
-	 * according mirrored margin settings, and will always start on an odd page and
-	 * is likely to generate unwanted blank pages after.
+	 * according mirrored margin settings, and will always start on an odd page
+	 * and is likely to generate unwanted blank pages after.
 	 * http://mpdf1.com/forum/discussion/comment/6417#Comment_6417
 	 *
 	 */
@@ -341,7 +356,7 @@ class Pdf extends Prince\Pdf {
 						$display_header = false;
 						$display_footer = true;
 						$page_options   = [
-							'suppress' => 'off',
+							'suppress'     => 'off',
 							'pagenumstyle' => 'i',
 						];
 						$toc_level      = 0;
@@ -355,7 +370,7 @@ class Pdf extends Prince\Pdf {
 						$display_header = true;
 						$display_footer = true;
 						$page_options   = [
-							'suppress' => 'off',
+							'suppress'     => 'off',
 							'pagenumstyle' => '1',
 						];
 						$toc_level      = 1;
@@ -369,7 +384,7 @@ class Pdf extends Prince\Pdf {
 						$display_header = false;
 						$display_footer = true;
 						$page_options   = [
-							'suppress' => 'on',
+							'suppress'     => 'on',
 							'pagenumstyle' => '1',
 						];
 						$toc_level      = 0;
@@ -383,7 +398,7 @@ class Pdf extends Prince\Pdf {
 						$display_header = false;
 						$display_footer = true;
 						$page_options   = [
-							'suppress' => 'off',
+							'suppress'     => 'off',
 							'pagenumstyle' => '1',
 						];
 						$toc_level      = 0;
@@ -473,10 +488,10 @@ class Pdf extends Prince\Pdf {
 		static $part_id = 1;
 		static $chap_id = 1;
 
-		if ( 'part-title' == $class ) {
+		if ( 'part-title' === $class ) {
 			$entry = $part_id . '. ' . $title;
 			$part_id ++;
-		} elseif ( 'chapter-title' == $class ) {
+		} elseif ( 'chapter-title' === $class ) {
 			$entry = $chap_id . '. ' . $title;
 			$chap_id ++;
 		} else {
@@ -639,7 +654,7 @@ class Pdf extends Prince\Pdf {
 
 		}
 
-		$mpdf_css = 'div.mpdf_toc_level_0{line-height:1.5;margin-left:0;padding-right:0}div.mpdf_toc_level_1{margin-left:2em;text-indent:-2em;padding-right:0}div.mpdf_toc_level_2{margin-left:4em;text-indent:-2em;padding-right:0}';
+		$mpdf_css = '.aligncenter{margin:0 auto;}div.mpdf_toc_level_0{line-height:1.5;margin-left:0;padding-right:0}div.mpdf_toc_level_1{margin-left:2em;text-indent:-2em;padding-right:0}div.mpdf_toc_level_2{margin-left:4em;text-indent:-2em;padding-right:0}';
 
 		return $mpdf_css . $filtered;
 

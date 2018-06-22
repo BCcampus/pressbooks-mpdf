@@ -1,0 +1,51 @@
+language: php
+php:
+- 7.0.29
+- 7.1.18
+sudo: required
+notifications:
+  email:
+    on_success: never
+    on_failure: change
+branches:
+  only:
+  - dev
+  - "/\\d+\\.\\d+(\\.\\d+)?(-\\S*)?$/"
+env:
+- WP_VERSION=latest
+cache:
+  apt: true
+  directories:
+  - "$HOME/.composer/cache"
+  - node_modules
+  - vendor
+before_install:
+- sudo apt-get -qq update
+install:
+- composer install
+before_script:
+- if [[ ${TRAVIS_PHP_VERSION:0:3} != "7.1" ]] && php -v | grep -q 'Xdebug'; then phpenv
+  config-rm xdebug.ini; fi
+- bash bin/install-wp-tests.sh mpdf_test root '' localhost $WP_VERSION
+script:
+- vendor/bin/phpunit --configuration phpunit.xml
+before_deploy:
+- export TRAVIS_PROJECT_SLUG="$(basename $TRAVIS_BUILD_DIR)"
+- curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+- chmod +x wp-cli.phar
+- sudo mv wp-cli.phar /usr/local/bin/wp
+- wp package install wp-cli/dist-archive-command
+- composer install --no-dev --optimize-autoloader
+- cd ../
+- wp dist-archive $TRAVIS_PROJECT_SLUG $TRAVIS_BUILD_DIR/$TRAVIS_PROJECT_SLUG-$TRAVIS_TAG.zip
+- cd $TRAVIS_BUILD_DIR
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: d480JJxUWYfViGL5S1OqK+XFho7pzkkmrYqvS5mZ0eCChT6ACCsp4GVPVqjqfSxYcggkaPwWEff0gwshOwpNjUOYVb4ke3gu47TTfV8xFEeZaR5r4nxWX1Im53eV6lebwnbJwfK+pEJ+d53XVQU4VXSPAMzR4CbPfjkPbaSkCXNJsGlDxaW4MIpxck/+Tcj4HmI7e/JbCWBqqPCN3TFMBwgnGEsIaF8tLNOdRO+cOvFsEEpBj8eH35aAEejUKoDQU2RGJKhD3B0qUeqTmH8TnRfDwB5+sVclxy+ZvUxCpkmUSs+SKJ4bp3ULwaKvUw9aA4hO3aifa87DrW6M559t12ad2HQMk7dRTBIuwkegYJJuzLcRszMpOg7YmzSDwyLUg2qehhyfl3PiAjImO8JYpPQC1zaMQvANlyy0aI18hSsAxeP802fJ22rX18RbfXcaE5KeAr/kkl0R7tRa1bdEn38YtbxOHnHxNzWEhkJWLDU9jmzD5+574/TXYbI2x2o4hNohC/3cH2341G90OfiONd6+PdFYVtI/1b46yXOH/thcCF7GptGm/823eJ9SxvLnVm2HeP45nTV33zQzJ5u0E29JPmwnmD9Ry0Xi3W3syFF3hYbgNWvLyxPjYG8Ffb2v+lImIeGLnx6YS0Pc2lMfUl+y5td+PLnM5y6LUpib09w=
+  file: pressbooks-mpdf-$TRAVIS_TAG.zip
+  on:
+    tags: true
+    repo: BCcampus/pressbooks-mpdf
+    branch: dev
