@@ -62,7 +62,7 @@ It is based on FPDF and HTML2FPDF with a number of enhancements.
 See: https://github.com/BCcampus/pressbooks-mpdf/commits/master for more detail
 
 = 3.2.0 (2018/07/12) =
-* update mPDF to v7.1.2
+* update mPDF to v7.1.1
 
 = 3.1.3 (2018/06/18) =
 * better dependency management
