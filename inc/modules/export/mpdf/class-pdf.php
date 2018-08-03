@@ -32,12 +32,12 @@ namespace BCcampus\Modules\Export\Mpdf;
  *     add_filter( 'mpdf_get_header', 'my_mpdf_header', 10, 1 );
  *
  */
+use Masterminds\HTML5;
 use Mpdf\Mpdf;
 use Mpdf\MpdfException;
-use Masterminds\HTML5;
 use Pressbooks\Book;
-use Pressbooks\Sanitize;
 use Pressbooks\Modules\Export\Prince;
+use Pressbooks\Sanitize;
 
 class Pdf extends Prince\Pdf {
 
@@ -306,8 +306,8 @@ class Pdf extends Prince\Pdf {
 			'margin-right' => 15,
 		];
 		$content      = '<div id="half-title-page">';
-		$content      .= '<h1 class="title">' . $this->bookTitle . '</h1>';
-		$content      .= '</div>' . "\n";
+		$content     .= '<h1 class="title">' . $this->bookTitle . '</h1>';
+		$content     .= '</div>' . "\n";
 
 		if ( ! empty( $this->bookMeta['pb_cover_image'] ) ) {
 			$content .= '<div style="text-align:center;"><img src="' . $this->bookMeta['pb_cover_image'] . '" alt="book-cover" title="' . bloginfo( 'name' ) . ' book cover" /></div>';
