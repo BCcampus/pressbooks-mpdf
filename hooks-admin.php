@@ -18,7 +18,7 @@ add_filter(
 
 add_filter(
 	'pb_active_export_modules', function ( $modules ) {
-	if ( isset( $_POST['export_formats']['mpdf'] ) ) { // @codingStandardsIgnoreLine
+	if ( isset( $_POST['export_formats']['mpdf'] ) ) { // phpcs:ignore
 			$modules[] = '\BCcampus\Modules\Export\Mpdf\Pdf';
 		}
 

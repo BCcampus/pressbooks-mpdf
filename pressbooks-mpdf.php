@@ -6,7 +6,7 @@
  *
  * Plugin Name: mPDF for Pressbooks
  * Description:  Open source PDF generation for Pressbooks via the mPDF library.
- * Version: 3.2.1
+ * Version: 3.2.2
  * Author: Brad Payne
  * Author URI: https://github.com/bdolor
  * Original Author: BookOven Inc.
@@ -15,31 +15,25 @@
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  * Network: True
  * Tags: pressbooks, OER, publishing, PDF, export
- * Pressbooks tested up to: 5.4.5
+ * Pressbooks tested up to: 5.5.3
  */
 /**
  *
- * This plugin is forked from Pressbooks mPDF https://github.com/pressbooks/pressbooks-mpdf
- * which was based on the original work of Jeff Graham (jgraham909). This fork will be maintained by the open source community.
- * Designed to be activated only at the network level.
+ * This plugin is forked from Pressbooks mPDF
+ * https://github.com/pressbooks/pressbooks-mpdf which was based on the
+ * original work of Jeff Graham (jgraham909). This fork will be maintained by
+ * the open source community. Designed to be activated only at the network
+ * level.
  *
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	die();
-}
-
-// -------------------------------------------------------------------------------------------------------------------
-// Setup some defaults
-// -------------------------------------------------------------------------------------------------------------------
-
-if ( ! defined( 'PB_MPDF_DIR' ) ) {
-	define( 'PB_MPDF_DIR', __DIR__ . '/' ); // Must have trailing slash!
+	return;
 }
 
 add_action( 'init', function () {
 	// Must meet minimum requirements
-	if ( ! @include_once( WP_PLUGIN_DIR . '/pressbooks/compatibility.php' ) ) { // @codingStandardsIgnoreLine
+	if ( ! @include_once( WP_PLUGIN_DIR . '/pressbooks/compatibility.php' ) ) { // phpcs:ignore
 		add_action( 'admin_notices', function () {
 			echo '<div id="message" class="error fade"><p>' . __( 'mPDF for Pressbooks cannot find a Pressbooks install.', 'pressbooks-mpdf' ) . '</p></div>';
 		} );
@@ -67,8 +61,10 @@ add_action( 'init', function () {
 		if ( ! file_exists( $ttffontdata_path ) ) {
 			mkdir( $ttffontdata_path, 0775, true );
 		}
+		// phpcs:disable
 		define( '_MPDF_TEMP_PATH', $tmp_path );
 		define( '_MPDF_TTFONTDATAPATH', $ttffontdata_path );
+		// phpcs:enable
 
 		require_once __DIR__ . '/autoloader.php';
 

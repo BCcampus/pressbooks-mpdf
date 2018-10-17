@@ -32,6 +32,7 @@ namespace BCcampus\Modules\Export\Mpdf;
  *     add_filter( 'mpdf_get_header', 'my_mpdf_header', 10, 1 );
  *
  */
+
 use Masterminds\HTML5;
 use Mpdf\Mpdf;
 use Mpdf\MpdfException;
@@ -114,7 +115,7 @@ class Pdf extends Prince\Pdf {
 
 		// lives and dies with the instantiation of the object
 		if ( $memory_available < $this->memoryNeeded ) {
-			ini_set( 'memory_limit', $this->memoryNeeded . 'M' ); // @codingStandardsIgnoreLine
+			ini_set( 'memory_limit', $this->memoryNeeded . 'M' ); // phpcs:ignore
 		}
 
 		$this->options         = get_option( 'pressbooks_theme_options_mpdf' );
@@ -128,7 +129,7 @@ class Pdf extends Prince\Pdf {
 		$timestamp = time();
 		$md5       = $this->nonce( $timestamp );
 		$this->url = home_url() . "/format/xhtml?timestamp={$timestamp}&hashkey={$md5}";
-		if ( ! empty( $_REQUEST['preview'] ) ) {
+		if ( ! empty( $_REQUEST['preview'] ) && wp_verify_nonce( $md5 ) ) {
 			$this->url .= '&' . http_build_query(
 				[
 					'preview' => $_REQUEST['preview'],
@@ -154,7 +155,9 @@ class Pdf extends Prince\Pdf {
 		if ( ! is_wp_error( $contents ) ) {
 			$contents = wp_remote_retrieve_body( $contents );
 		} else {
-			\error_log( 'BCcampus\Modules\Export\Mpdf\convert failed to get remote url' . $contents->get_error_message() );
+			if ( defined( 'WP_ENV' ) && WP_ENV === 'development' ) {
+				\error_log( 'BCcampus\Modules\Export\Mpdf\convert failed to get remote url' . $contents->get_error_message() ); //phpcs:ignore
+			}
 
 			return false;
 		}
@@ -191,7 +194,9 @@ class Pdf extends Prince\Pdf {
 			$this->mpdf->Output( $this->outputPath, 'F' );
 
 		} catch ( MpdfException $e ) {
-			error_log( $e->getMessage() );
+			if ( defined( 'WP_ENV' ) && WP_ENV === 'development' ) {
+				error_log( $e->getMessage() ); //phpcs:ignore
+			}
 		}
 
 		return true;
