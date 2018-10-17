@@ -2,13 +2,14 @@
 <ruleset>
 	<!-- Scan only PHP files -->
 	<arg name="extensions" value="php"/>
-
 	<!-- Show colors in console -->
 	<arg value="-colors"/>
-
 	<!-- Show progress -->
 	<arg value="p"/>
-
+	<!-- Be quiet -->
+	<arg value="q"/>
+	<!-- Include source codes in the report -->
+	<arg value="s"/>
 	<!-- Use HM Coding Standards -->
 	<rule ref="vendor/humanmade/coding-standards">
 		<!-- Disable all ESLint checks -->
@@ -25,6 +26,7 @@
 
 	<!-- Re-enable rules we agree with -->
 	<rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+	<rule ref="PSR1.Methods.CamelCapsMethodName"/>
 
 	<!-- Disable Side Effects rule for bootstrapping file, extends WordPress core, cron scripts -->
 	<rule ref="PSR1.Files.SideEffects">
