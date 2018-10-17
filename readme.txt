@@ -64,6 +64,7 @@ See: https://github.com/BCcampus/pressbooks-mpdf/commits/master for more detail
 = 3.2.2 (2018/10/015) =
 * update mPDF to v7.1.5
 * compatibility with PB v5.5.3
+* enforced coding standards
 
 = 3.2.1 (2018/08/09) =
 * update mPDF to v7.1.3
