@@ -481,8 +481,8 @@ class MPDFOptions extends Pressbooks\Options {
 		 */
 		return apply_filters(
 			'pb_theme_options_mpdf_integers', [
-				'mpdf_left_margin',
-				'mpdf_right_margin',
+				'mpdf_margin_left',
+				'mpdf_margin_right',
 			]
 		);
 	}
