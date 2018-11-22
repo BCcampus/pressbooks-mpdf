@@ -61,7 +61,7 @@ It is based on FPDF and HTML2FPDF with a number of enhancements.
 
 See: https://github.com/BCcampus/pressbooks-mpdf/commits/master for more detail
 
-= 3.2.2 (2018/11/21) =
+= 3.2.3 (2018/11/21) =
 * [bug] fix options not saving margin size
 
 = 3.2.2 (2018/10/15) =
