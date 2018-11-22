@@ -644,7 +644,7 @@ class Pdf extends Prince\Pdf {
 			// page breaks in mpdf are created with 'AddPage()'
 			$filtered = preg_replace( '/page-break-(before|after|inside)\:(\s?)(right|auto|left|always|inherit);/i', 'page-break-$1: avoid;', $css );
 
-			// mpdf has its own class for toc
+			// mPDF has its own class for toc
 			// 2018/02/23 - removing this, prince pdf options interfere ex. 'display:none'
 			//$filtered = preg_replace( '/#toc\s?/iU', '.mpdf_toc ', $filtered );
 
@@ -654,14 +654,17 @@ class Pdf extends Prince\Pdf {
 			// page breaks created with every change in @page selector
 			$filtered = preg_replace( '/@page\s?(.*)\s{/iU', 'body {', $filtered );
 
-			// Mpdf has limited @page support
+			// mPDF only supports max-width for img, replaced in $special below
+			$filtered = preg_replace( '/max-width\:/iU', 'width:', $filtered );
+
+			// mPDF has limited @page support
 			$filtered = preg_replace( '/(?:@(top*|bottom*|right*|left*|footnotes)\s?(.*)\s?{(.*)})/isU', '', $filtered );
 
 		}
-
+		$special  = 'img{max-width:100%}';
 		$mpdf_css = '.aligncenter{margin:0 auto;}div.mpdf_toc_level_0{line-height:1.5;margin-left:0;padding-right:0}div.mpdf_toc_level_1{margin-left:2em;text-indent:-2em;padding-right:0}div.mpdf_toc_level_2{margin-left:4em;text-indent:-2em;padding-right:0}';
 
-		return $mpdf_css . $filtered;
+		return $mpdf_css . $filtered . $special;
 
 	}
 
