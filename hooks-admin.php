@@ -59,3 +59,14 @@ add_filter(
 		return $scss;
 	}
 );
+
+add_filter(
+	'pb_export_module_classnames', function ( $formats ) {
+
+		if ( ! isset( $formats['\BCcampus\Modules\Export\Mpdf\Pdf'] ) ) {
+			$formats['\BCcampus\Modules\Export\Mpdf\Pdf'] = __( 'mPDF', 'pressbooks-mpdf' );
+		}
+
+		return $formats;
+	}
+);

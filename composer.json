@@ -2,7 +2,7 @@
   "name": "bccampus/pressbooks-mpdf",
   "description": "Open source PDF generation for Pressbooks via the mPDF library.",
   "type": "wordpress-plugin",
-  "version": "3.2.4",
+  "version": "3.2.5",
   "homepage": "https://github.com/bccampus/pressbooks-mpdf",
   "license": "GPL-2.0+",
   "authors": [
@@ -22,7 +22,7 @@
   },
   "require": {
     "php": ">=7.1",
-    "mpdf/mpdf": "^7.1.7"
+    "mpdf/mpdf": "^7.1.9"
   },
   "require-dev": {
     "phpunit/phpunit": "^5.7",
@@ -35,6 +35,9 @@
     ],
     "standards": [
       "vendor/bin/phpcs --standard=phpcs.ruleset.xml ."
+    ],
+    "standards-beautify": [
+      "vendor/bin/phpcbf --standard=phpcs.ruleset.xml ."
     ]
   }
 }
