@@ -1,15 +1,10 @@
 <?php
 /**
- * @author    Brad Payne
- * @license   GPLv2
- * @copyright Brad Payne
- *
  * Plugin Name: mPDF for Pressbooks
  * Description:  Open source PDF generation for Pressbooks via the mPDF library.
- * Version: 3.3.0
- * Author: Brad Payne, Alex Paredes
+ * Version: 3.3.1
+ * Author: BCcampus
  * Author URI: https://github.com/bccampus/
- * Original Author: BookOven Inc.
  * License: GPLv2
  * Text Domain: pressbooks-mpdf
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
