@@ -43,9 +43,11 @@ before_deploy:
 - cd $TRAVIS_BUILD_DIR
 deploy:
   provider: releases
+  skip_cleanup: true
   api_key:
     secure: qLDl/8r+QH/sBGhu99gMLScCpYvGx6RC+PtdcLixuj+2OKq5qK+1tvuR8cyugpCS2pd5dF4T8Y7pyF9zi/8JQkMmLYrY5cD3kXaOL7/l2oE3lJ0CcRFHrOVG/tF/FOdA4nzJTPQ8F6Mq0sVm07NcT5NmvSfqx8VlrBFNB0GNUZYoWaeI6yZxNsLEIQQewSdqJIuVVBkbU6nd6fIkpEydeqpf/R46HVPFSD5Tz3mnMXoHgF+ScbGGlRQ+smAj3oF/LVAmwoW3m5Twa+CWwcdXU/xf9aiO2+vWaQ1BhIUiJYMiUyu38SlC3YbBjekYSfX8r5VQff/4Ng8XfugAy201EahYzQRAmRDrFH/45eXBXm/9PP+GtdyJtRNeKYHU1N8M2nJwvRYBOA6+yxTT3kejT4gQZTxCGozvH+HeFLMonrC0u3YxIIUTYorJp+e1uepPmpM/rbwDdZUbnhU0zF49m0WhAPYPeZC0RaRalSyK0UurUTzoJ/TIqsx6J2DMMdmKZ/Ne8xm+DubtxtzHNab4WCg842rl7Y0Dka4ZexOEOlXxHk1SCVgOz3vxLOentRdV9kXRZzdpSX1xHOa/IuuaQj+00YEr60bQ+ewcLFsK7mCvf+VJcBQREj44YPo2y7YKir7qi3nko0ylM4ENa8TVbu2t8aqC3rALqYOZzVa+et4=
   file: pressbooks-mpdf-$TRAVIS_TAG.zip
   on:
+    tags: true
     repo: BCcampus/pressbooks-mpdf
     branch: dev
