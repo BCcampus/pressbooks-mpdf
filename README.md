@@ -1,3 +1,6 @@
+This project has reached the end of its development. Feel free to browse the code, but please use other alternatives.
+
+
 # mPDF for Pressbooks
 [![Build Status](https://travis-ci.com/BCcampus/pressbooks-mpdf.svg?branch=dev)](https://travis-ci.com/BCcampus/pressbooks-mpdf)
 
